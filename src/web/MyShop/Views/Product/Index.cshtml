@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Products";
+}
+@section css {
+    <link rel="stylesheet" href="~/jqgrid/css/ui.jqgrid.css" />
+    <link rel="stylesheet" href="~/jqgrid/css/ui.jqgrid-bootstrap.css" />
+    <link rel="stylesheet" href="~/jqgrid/css/ui.jqgrid-bootstrap-ui.css" />
+}
+
+<table id="product-table"></table>
+<div id="product-pager"></div>
+
+@section scripts {
+    <script src="~/jqgrid/js/i18n/grid.locale-en.js"></script>
+    <script src="~/jqgrid/js/jquery.jqGrid.min.js"></script>
+    <script>
+            $("#product-table").jqGrid({
+                url: '@Url.Action("GetProduct", "Product")',
+                shrinkToFit: true,
+                height: 'auto',
+                datatype: "json",
+                styleUI: "Bootstrap",
+                colNames: ['Id', 'Name',  'Actions'],
+                colModel: [
+                    { name: 'id', index: 'Id'},
+                    { name: 'name', index: 'Name'},
+                    { name: 'Actions', index: 'Actions', editable: true, sortable: false, formatter: displayButtons, align: 'right' }
+                ],
+                rowNum: 5,
+                rowList: [3, 5, 10, 20, 30],
+                pager: '#product-pager',
+                sortname: 'Id',
+                viewrecords: true,
+                sortorder: "desc",
+                caption: "Product List"
+            });
+            $("#product-table").jqGrid('navGrid', '#product-pager', { edit: false, add: false, del: false, search: true },{} ,{} ,{}, {closeAfterSearch:true});
+            function displayButtons(cellvalue, options, rowObject) {
+                    var edit = "<a href='@Url.Action("Edit", "Product")/" + rowObject.id + "' class='btn btn-primary' style='display: inline-table)'>Edit</a>",
+                    del = "<a href='@Url.Action("Delete", "Product")/" + rowObject.id + "' class='btn btn-danger' style='display: inline-table)'>Delete</a>"
+                return edit + " " + del;
+            }
+    </script>
+}

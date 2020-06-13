@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\AmazingShop.Product.Application\AmazingShop.Product.Application.csproj" />
+    <ProjectReference Include="..\AmazingShop.Product.Domain\AmazingShop.Product.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+</Project>

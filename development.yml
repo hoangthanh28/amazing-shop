@@ -1,0 +1,21 @@
+version: "3"
+services:
+  idp:
+    # replace username/repo:tag with your name and image details
+    build: 
+      context: .
+      dockerfile: dockerfiles/idp/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__Idp: "Server=db;Database=Idp;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
+    ports:
+      - "8081:80"
+  product:
+    # replace username/repo:tag with your name and image details
+    build: 
+      context: .
+      dockerfile: dockerfiles/api/Product
+    environment:
+      Idp__Authority: "http://idp"
+    ports:
+      - "11001:80"

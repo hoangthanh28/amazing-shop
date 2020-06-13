@@ -1,0 +1,19 @@
+﻿@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <text>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="navbar-text">
+                Hello, @User.Claims.FirstOrDefault( x => x.Type == "email")?.Value
+            </li>
+            <li>
+                @Html.ActionLink("Sign out", "Logout", new { controller = "Account" })
+            </li>
+        </ul>
+    </text>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Sign in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
