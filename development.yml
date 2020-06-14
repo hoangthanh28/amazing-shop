@@ -10,12 +10,24 @@ services:
       ConnectionStrings__Idp: "Server=db;Database=Idp;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
     ports:
       - "8081:80"
-  product:
+  product-service:
     # replace username/repo:tag with your name and image details
     build: 
-      context: .
-      dockerfile: dockerfiles/api/Product
+      context: src/api/product-service
+      dockerfile: Dockerfile
     environment:
       Idp__Authority: "http://idp"
+      StorageAccount__ConnectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
+      StorageAccount__ImageQueueName: "devstoreaccount1/images" # need to input the storage account name into the queue, only for Azurite
     ports:
       - "11001:80"
+  product-function:
+    # replace username/repo:tag with your name and image details
+    build: 
+      context: src/api/product-service/function
+      dockerfile: Dockerfile
+    environment:
+      StorageAccount: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
+      AzureWebJobsStorage: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
+    ports:
+      - "12001:80"
