@@ -1,25 +1,31 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using AmazingShop.Function.Event;
 using System.IO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace AmazingShop.Function
 {
     public class ImageProcessor
     {
         [FunctionName("ImageProcessor")]
-        public async Task RunAsync([QueueTrigger("images", Connection = "StorageAccount")] ImageAddedEvent queueEvent,
-        [Blob("data/images/{FileName}", FileAccess.Read, Connection = "StorageAccount")] Stream originalImage,
-        [Blob("data/images/low/{FileName}", FileAccess.Write, Connection = "StorageAccount")] Stream lowImage,
-        [Blob("data/images/medium/{FileName}", FileAccess.Write, Connection = "StorageAccount")] Stream mediumImage,
-        [Blob("data/images/high/{FileName}", FileAccess.Write, Connection = "StorageAccount")] Stream highImage,
+        public void Run([QueueTrigger("images", Connection = "StorageAccount:ConnectionString")] ImageAddedEvent queueEvent,
+        [Blob("data/images/{FileName}", FileAccess.Read, Connection = "StorageAccount:ConnectionString")] Stream originalImage,
+        [Blob("data/images/low/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream lowImage,
+        [Blob("data/images/medium/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream mediumImage,
+        [Blob("data/images/high/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream highImage,
         ILogger log)
         {
             log.LogInformation(queueEvent.FileName);
-            await originalImage.CopyToAsync(highImage);
-            await originalImage.CopyToAsync(mediumImage);
-            await originalImage.CopyToAsync(lowImage);
+            using (Image image = Image.Load(originalImage))
+            {
+                // Resize the image in place and return it for chaining.
+                // 'x' signifies the current image processing context.
+                image.Save(lowImage, new JpegEncoder() { Quality = 20 });
+                image.Save(mediumImage, new JpegEncoder() { Quality = 50 });
+                image.Save(highImage, new JpegEncoder() { Quality = 90 });
+            }
         }
     }
 }
