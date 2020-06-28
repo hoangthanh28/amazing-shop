@@ -21,7 +21,7 @@ class Resource extends Component<ResourceProps, ResourceStates> {
 
   renderResourceTable(resources) {
     return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th>Id</th>
@@ -49,7 +49,7 @@ class Resource extends Component<ResourceProps, ResourceStates> {
 
     return (
       <div>
-        <h1 id="tabelLabel">Resources</h1>
+        <h3>Resources</h3>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>

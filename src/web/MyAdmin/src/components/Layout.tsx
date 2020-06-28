@@ -5,13 +5,33 @@ import { StateToPropInterface } from '../interfaces/PagePropsInterface';
 import SideNav from './SideNav'
 import Header from './Header'
 import appRoutes from '../routers/index'
-import { Container } from 'reactstrap';
-interface MainProps {
+import CustomModal from './Modal/index'
+import { withTranslation, WithTranslation } from 'react-i18next';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import Message from '../models/Message';
+import { DiscardMessage } from '../reduxs/actions/System'
+import store from '../reduxs';
+interface MainProps extends RouteComponentProps<{}> {
   user: StateToPropInterface['oidc']['user'];
+  openDialog: boolean;
+  message: Message
 }
-class Main extends Component<MainProps, {}> {
+interface MainState {
+  somethingChanged: boolean;
+  forceChangeRoute: boolean;
+}
+class Main extends Component<MainProps & WithTranslation, MainState> {
   static displayName = Main.name;
+  constructor(props: MainProps & WithTranslation) {
+    super(props);
+    this.state = {
+      somethingChanged: false,
+      forceChangeRoute: false
+    };
+  }
+
   render() {
+    const { openDialog, message } = this.props;
     return (
       <React.Fragment>
         <SideNav />
@@ -22,15 +42,30 @@ class Main extends Component<MainProps, {}> {
               {appRoutes}
             </div>
           </main>
+          ({openDialog} & <CustomModal
+            classHolder={message.classHolder}
+            isOpen={openDialog}
+            title={message.name}
+            closeModal={() => { store.dispatch(DiscardMessage()) }}
+            content={
+              <React.Fragment>
+                <p>{message.message}</p>
+                {message.content}
+              </React.Fragment>
+            }
+          />)
         </div>
       </React.Fragment>
     );
   }
 }
 const mapStateToProps = (store: any) => {
-  const { oidc } = store;
+  const { oidc, system } = store;
   return {
-    user: oidc.user
+    user: oidc.user,
+    openDialog: system.openDialog,
+    message: system.message
+
   };
 };
-export default connect(mapStateToProps)(Main);
+export default withRouter(connect(mapStateToProps)(withTranslation()(Main)));

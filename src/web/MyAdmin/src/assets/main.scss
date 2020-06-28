@@ -4266,261 +4266,70 @@ html {
 	}
 }
 
-// End page-container
-// =============================================================================
-
-// =============================================================================
-// edit-plan
-.plan-edit {
-	.basic-3 {
-		display: flex;
-		flex-direction: column;
+.login-bg {
+	height: 100vh;
+	background-image: url("./images/bg.jpeg");
+	background-position: center center;
+	background-size: cover;
+  }
+  
+  .login-container div.overlay {
+	background-color: #0b2240;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 1;
+	animation: opacityTransform 3s ease-in-out .5s forwards;
+  }
+  
+  @keyframes opacityTransform {
+	from {
+	  opacity: 1;
 	}
-
-	.available-from {
-		padding-right: 0;
+  
+	to {
+	  opacity: .5;
 	}
+  }
 
-	.line-date {
-		padding: 0;
-		width: rem(2px);
-		position: relative;
-
-		span {
-			position: absolute;
-			top: 45%;
-			left: 40%;
-		}
+  
+.login-container .wrapper {
+	width: 400px;
+	height: 200px;
+	margin-left: -210px;
+	margin-top: -100px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	text-align: center;
+	color: #fff;
+	z-index: 2;
+  }
+  
+	.login-container .wrapper > button {
+	  background-color: #ff7f49;
+	  display: inline-block;
+	  border-radius: 30px;
+	  border: none;
+	  padding: 14px 20px;
+	  font-size: 14px;
+	  box-shadow: inset 0px -3px 0px 2px #f6723f;
+	  cursor: pointer;
+	  color: #fff;
+	  outline: none;
 	}
-
-	.available-to {
-		padding-left: 0;
+  
+	  .login-container .wrapper > button:hover {
+		background-color: #f6723f;
+	  }
+  
+	.login-container .wrapper p {
+	  font-size: 25px;
 	}
-
-	.available-from,
-	.available-to {
-		.form-control {
-			height: rem(32px);
-			border-radius: rem(4px);
-		}
-	}
-
-	.club-group {
-		text-align: left;
-
-		.stamp {
-			padding: rem(5px);
-			border: 1px solid var(--gray-color-3);
-			border-radius: rem(20px);
-			background-color: var(--gray-color-2);
-			margin-right: rem(5px);
-		}
-	}
-
-	.periods {
-		font-size: $font-size-base - 1;
-
-		.period-item {
-			display: flex;
-
-			.period-item-1 {
-				width: 43%;
-				justify-content: start;
-			}
-		}
-
-		.form-check {
-			span {
-				font-size: $font-size-base - 1;
-			}
-		}
-
-		.plan {
-			width: 50%;
-			padding-right: 0;
-			padding-left: rem(15px);
-		}
-
-		.package {
-			width: 50%;
-			padding-left: 0;
-		}
-
-		.input-group {
-			width: rem(37px);
-			margin: rem(0 5px);
-		}
-
-		.select-custom {
-			width: rem(80px);
-		}
-
-		.periods-between {
-			padding: rem(10px 5px 5px 5px);
-			margin-bottom: rem(10px);
-			background-color: var(--gray-color-2);
-
-			.select-custom--between {
-				width: rem(127px);
-			}
-		}
-	}
-
-	.payments {
-		.payments-main {
-			max-height: rem(1200px);
-			overflow: auto;
-
-			.title-medium {
-				font-weight: $font-weight-medium;
-			}
-		}
-
-		.title {
-			margin-right: rem(20px);
-		}
-
-		.select-new-item {
-			color: $primary-color;
-			cursor: pointer;
-		}
-
-		.selling-price {
-
-			.price-is,
-			.priority,
-			.is-club,
-			.from-to {
-				margin-right: rem(20px);
-			}
-
-			.priority,
-			.is-club {
-				&>div {
-					width: rem(170px);
-				}
-			}
-
-			form.price-is {
-				display: inline-block;
-
-				.input-group {
-					width: unset;
-
-					.form-control {
-						width: rem(140px);
-					}
-				}
-			}
-
-			.priority.select-custom,
-			.is-club.select-custom,
-			.from-to.input-group {
-				display: inline-block;
-				width: unset;
-
-				.form-control {
-					width: rem(140px);
-					height: rem(32px);
-					border-radius: rem(4px);
-				}
-			}
-
-			.span-3 {
-				display: block;
-				width: 100%;
-			}
-
-			.from-to.input-group {
-				margin-top: rem(10px);
-			}
-		}
-
-		.hr {
-			width: 100%;
-			height: rem(1px);
-			background: var(--gray-color-2);
-			margin: rem(20px 0);
-		}
-	}
-
-	.comment {
-		width: 100%;
-
-		.form-control {
-			width: 80%;
-		}
-
-		.title {
-			font-weight: 500;
-		}
-
-		p {
-			margin-left: rem(20px);
-
-			span {
-				text-decoration: underline;
-				font-style: italic;
-				color: $blue-color;
-				cursor: pointer;
-			}
-		}
-	}
-
-	.no-padding-left {
-		padding-left: 0 !important;
-	}
-
-	.member {
-		.member-main.member-main--custom {
-			>.content {
-				padding: 0.3rem 1.3rem;
-
-				.collapse-promotion {
-					border-bottom: none;
-
-					button.collapsible {
-						border-bottom: 1px solid var(--gray-color-2);
-						padding-bottom: 0.7142857143rem;
-					}
-
-					.content {
-						.title {
-							font-weight: 500;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	.icon--calendar {
-		position: absolute;
-		border: none;
-		background: transparent;
-		right: 0;
-		top: 15%;
-		font-size: $font-size-base-large + 4;
-		z-index: 3;
-		outline: none;
-	}
-}
-
-// End edit-plan
-// =============================================================================
-
-// =============================================================================
-//update-plan-availability
-.update-plan-availability {
-	.table-main-content {
-		padding: rem(15px);
-	}
-}
-
-// End update-plan-availability
-// =============================================================================
-
-// =============================================================================
 // Footer
 footer {
 	height: 2.5714285714285716em;

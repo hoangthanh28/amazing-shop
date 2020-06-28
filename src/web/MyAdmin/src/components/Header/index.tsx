@@ -6,7 +6,9 @@ import i18n from 'i18next';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { StateToPropInterface } from './../../interfaces/PagePropsInterface'
 import _ from 'lodash'
-import './Header.scss';
+import { ShowMessage, DiscardMessage } from './../../reduxs/actions/System'
+import userManager from '../../auth/Oidc'
+import store from '../../reduxs';
 interface Props extends RouteComponentProps<{}> {
     user: StateToPropInterface['oidc']['user'];
 }
@@ -115,7 +117,7 @@ class Header extends React.Component<Props & WithTranslation, State> {
 
     signOut() {
         /* eslint @typescript-eslint/no-explicit-any: 0 */
-        const { t } = this.props;
+        const { t, user } = this.props;
         const content = (
             <React.Fragment>
                 <p>{t('PAGE.LOGOUT.WOULD_YOU_LIKE')}</p>
@@ -124,13 +126,15 @@ class Header extends React.Component<Props & WithTranslation, State> {
                         className="btn btn-primary text-uppercase"
                         onClick={() => {
                             // do something
+                            userManager.signoutRedirect({ prompt: 'login', 'id_token_hint': user.id_token });
                         }}
                     >
                         {t('BUTTON.YES')}
                     </button>
                     <button
                         className="btn btn-dark text-uppercase"
-                        onClick={() => {// do something
+                        onClick={() => {
+                            store.dispatch(DiscardMessage());
                         }}
                     >
                         {t('BUTTON.NO')}
@@ -138,6 +142,7 @@ class Header extends React.Component<Props & WithTranslation, State> {
                 </div>
             </React.Fragment>
         );
+        store.dispatch(ShowMessage({ content: content, classHolder: '', name: 'Do you want to close', message: 'Do you want to close' }));
     }
 
     render() {
