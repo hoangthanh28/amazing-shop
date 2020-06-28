@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AmazingShop.Product.Application.Extension;
 using AmazingShop.Product.Infrastructure.Extension;
+using AmazingShop.Product.Persistence.Extension;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace AmazingShop.Product
         {
             services.AddControllers();
             services.AddApplicationServices();
+            services.AddPersistenceServices();
             services.AddInfrastructureServices();
             services.AddAuthentication().AddIdentityServerAuthentication("oidc", options =>
              {

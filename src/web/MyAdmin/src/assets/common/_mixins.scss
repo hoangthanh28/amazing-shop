@@ -1,0 +1,178 @@
+// =============================================================================
+// String Replace
+// =============================================================================
+
+@function str-replace($string, $search, $replace: "") {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+
+// =============================================================================
+// Font Face
+// =============================================================================
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+	$src: null;
+	$eot: "eot";
+
+	$extmods: (
+		eot: "?#iefix",
+		svg: "#" + str-replace($name, " ", "_")
+	);
+
+	$formats: (
+		eot: "embedded-opentype",
+		otf: "opentype",
+		ttf: "truetype"
+	);
+
+	@each $ext in $exts {
+		$extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+		$src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+	}
+
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		@if index($exts, $eot) {
+			src: url(quote($path + ".eot"));
+		}
+		src: $src;
+	}
+}
+
+// =============================================================================
+// Font Size
+// =============================================================================
+@function px2em($size, $baseSize:14px) {
+  $emSize: $size / $baseSize;
+  @return $emSize * 1em;
+}
+
+@function calculateRem($size, $baseSize:14px) {
+  $remSize: $size / $baseSize;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+// =============================================================================
+// Line Height
+// =============================================================================
+@function lineHeight($size, $baseLine) {
+	$lineHeightSize : $baseLine / $size;
+	@return $lineHeightSize;
+}
+@mixin line-height($size, $baseLine) {
+	line-height: lineHeight($size, $baseLine)
+}
+
+// =============================================================================
+// Spacing
+// =============================================================================
+$rem-baseline: 14px !default;
+$rem-fallback: false !default;
+$rem-px-only: false !default;
+
+@function rem-separator($list, $separator: false) {
+  @if $separator == "comma" or $separator == "space" {
+    @return append($list, null, $separator);
+  } 
+  
+  @if function-exists("list-separator") == true {
+    @return list-separator($list);
+  }
+
+  $test-list: ();
+  @each $item in $list {
+    $test-list: append($test-list, $item, space);
+  }
+
+  @return if($test-list == $list, space, comma);
+}
+
+@mixin rem-baseline($zoom: 100%) {
+  font-size: $zoom / 14px * $rem-baseline;
+}
+
+@function rem-convert($to, $values...) {
+  $result: ();
+  $separator: rem-separator($values);
+  
+  @each $value in $values {
+    @if type-of($value) == "number" and unit($value) == "rem" and $to == "px" {
+      $result: append($result, $value / 1rem * $rem-baseline, $separator);
+    } @else if type-of($value) == "number" and unit($value) == "px" and $to == "rem" {
+      $result: append($result, $value / $rem-baseline * 1rem, $separator);
+    } @else if type-of($value) == "list" {
+      $value-separator: rem-separator($value);
+      $value: rem-convert($to, $value...);
+      $value: rem-separator($value, $value-separator);
+      $result: append($result, $value, $separator);
+    } @else {
+      $result: append($result, $value, $separator);
+    }
+  }
+
+  @return if(length($result) == 1, nth($result, 1), $result);
+}
+
+@function rem($values...) {
+  @if $rem-px-only {
+    @return rem-convert(px, $values...);
+  } @else {
+    @return rem-convert(rem, $values...);
+  }
+}
+
+@mixin rem($properties, $values...) {
+  @if type-of($properties) == "map" {
+    @each $property in map-keys($properties) {
+      @include rem($property, map-get($properties, $property));
+    }
+  } @else {
+    @each $property in $properties {
+      @if $rem-fallback or $rem-px-only {
+        #{$property}: rem-convert(px, $values...);
+      }
+      @if not $rem-px-only {
+        #{$property}: rem-convert(rem, $values...);
+      }
+    }
+  }
+}
+
+@function mixb($variable, $opacity) {
+  @return unquote('rgba(rgba(0, 0, 0,'+ $opacity +'),rgba(0, 0, 0,' + $opacity + '))' + $variable);
+}
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
+@mixin between($start, $end){
+  @media screen and (min-width: $start) and (max-width: $end - 1px) {
+    @content;
+  }
+}
+
+@mixin to($breakpoint) {
+  @media screen and (max-width: $breakpoint - 1px) {
+    @content;
+  }
+}
+
+@mixin from($breakpoint) {
+  @media screen and (min-width: $breakpoint){
+    @content;
+  }
+}

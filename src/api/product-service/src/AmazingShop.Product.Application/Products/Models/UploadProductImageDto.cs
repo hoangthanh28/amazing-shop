@@ -1,6 +1,6 @@
 namespace AmazingShop.Product.Application.Product.Dto
 {
-    public class UploadProductImageDto : BaseDto<string>
+    public class UploadProductImageDto : BaseResponseDto<string>
     {
         public static UploadProductImageDto Create(string filePath)
         {

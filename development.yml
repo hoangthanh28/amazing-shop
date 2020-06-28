@@ -3,8 +3,8 @@ services:
   idp:
     # replace username/repo:tag with your name and image details
     build: 
-      context: .
-      dockerfile: dockerfiles/idp/Dockerfile
+      context: src/idp
+      dockerfile: Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ConnectionStrings__Idp: "Server=db;Database=Idp;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
@@ -13,12 +13,13 @@ services:
   product-service:
     # replace username/repo:tag with your name and image details
     build: 
-      context: src/api/product-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: src/api/product-service/Dockerfile
     environment:
       Idp__Authority: "http://idp"
       StorageAccount__ConnectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
       StorageAccount__ImageQueueName: "devstoreaccount1/images" # need to input the storage account name into the queue, only for Azurite
+      ConnectionStrings__Product: "Server=db;Database=Product;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
     ports:
       - "11001:80"
   product-function:

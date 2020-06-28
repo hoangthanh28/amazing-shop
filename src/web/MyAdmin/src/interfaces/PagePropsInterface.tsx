@@ -23,12 +23,9 @@ export interface StateToPropInterface {
                 rememberLogin: string;
                 sid: string;
                 sub: string;
-                tenantId: string;
-                subTenantId: string;
                 username: string;
                 uid: string;
-                MFEndpoints: string;
-                operatorId: string;
+                avatar: string;
             };
             expired?: boolean;
         };

@@ -13,4 +13,5 @@ export const API_ENDPOINT =
     domainURL.indexOf('localhost') > -1
         ? `${window._env.API_URL}`
         : domainURL;
-export const PRODUCT_LIST = `${API_ENDPOINT}/prd/products`;        
+export const PRODUCT_LIST = `${API_ENDPOINT}/prd/products`;
+export const RESOURCE_LIST = `${API_ENDPOINT}/prd/resources`;        

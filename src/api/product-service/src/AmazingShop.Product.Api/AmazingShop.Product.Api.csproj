@@ -4,6 +4,7 @@
     <ProjectReference Include="..\AmazingShop.Product.Infrastructure\AmazingShop.Product.Infrastructure.csproj" />
     <ProjectReference Include="..\AmazingShop.Product.Application\AmazingShop.Product.Application.csproj" />
     <ProjectReference Include="..\AmazingShop.Product.Persistence\AmazingShop.Product.Persistence.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\AmazingShop.Shared.Core\AmazingShop.Shared.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

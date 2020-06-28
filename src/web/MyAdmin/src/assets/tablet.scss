@@ -1,0 +1,434 @@
+@media (max-width: 1023px) {
+  // Login Page
+  .login {
+    .container {
+      .multi-box {
+        padding-right: rem(20px);
+        .dropdown-content {
+          right: rem(15px);
+        }
+      }
+    }
+  }
+
+  // page-container
+  .page-container {
+    //header
+    header {
+      .text-hidden-mb, .account-name {
+        display: none;
+      }
+      .header {
+        padding-right: rem(35px);
+      }
+      .header__logo {
+        min-width: 170px;
+      }
+      .header__right {
+        .header__languages {
+          .multi-box {
+            span.icon {
+              &::before, &::after {
+                line-height: rem(60px) !important;
+              }
+            }
+            .dropdown-content {
+              top: rem(60px);
+            }
+          }
+        }
+      }
+    }
+    .main-content {
+      padding: rem(35px 35px 1px);
+      padding-top: rem(115px);
+      // edit profile
+      .edit-profile {
+        .profile-content {
+          justify-content: normal;
+          flex-direction: column;
+          .info-acc {
+            max-width: none;
+            margin-bottom: rem(30px);
+            .card-acc {
+              .box-avatar {
+                // position: relative;
+                // top: 0;
+                // transform: none;
+                // left: 0;
+              }
+            }
+          }
+          .edit-acc {
+            width: 100%;
+            .tab-content {
+              .tab-pane {
+                .row-btn {
+                  text-align: center;
+                  .btn {
+                    min-width: 49%;
+                    &.btn-dark {
+                      margin-right: 2%;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      // reset password
+      .reset-password {
+        .reset-password-main {
+          .rs-search form {
+            flex: none;
+            width: calc(100% - 160px);
+          }
+          .rs-content {
+            .table-edit-pass {
+              td {
+                white-space: nowrap;
+              }
+              .table thead {
+                th{
+                  &.acc-name, &.acc-fname {
+                    min-width: 150px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      // change password 
+      .change-pass {
+        .form-pass {
+          .btn-pass {
+            display: flex;
+            justify-content: space-between;
+            .btn {
+              min-width: 48%;
+              margin-right: 0;
+            }
+          }
+        }
+        .check-pass {
+          .info-change-pass {
+            width: 100%;
+          }
+        }
+      }
+      // appearance
+      .appearance {
+        .tabs {
+          .tab-content {
+            .tab-pane {
+              &.change-color {
+                .pickerColor {
+                  flex-wrap: wrap;
+                  padding-bottom: 0;
+                  margin-bottom: 1rem;
+                  .pickerColor__change {
+                    width: 100%;
+                    justify-content: center;
+                    .change-color {
+                      width: 30%;
+                      padding-bottom: 30%;
+                      margin-bottom: rem(15px);
+                    }
+                  }
+                  .pickerColor__text {
+                    width: 100%;
+                    padding-left: 0;
+                  }
+                }
+              }
+              .section-combo-color {
+                .exColor {
+                  margin-bottom: 1rem;
+                }
+                .exColor__box {
+                  width: 30%;
+                }
+              }
+            }
+          }
+        }
+      }
+      // decentralize
+      .decentralize {
+        .decentralize-main {
+          margin-bottom: 0;
+        }
+        .modalSaas {
+          &__dialog {
+            max-width: rem(1023px);
+            width: 95%;
+          }
+        }
+        &.roles {
+          .modalSaas__dialog {
+            width: 95%;
+          }
+        }
+      }
+      // user list
+      .list-people {
+        .tabs {
+          .tab-list-people {
+            .list-people-content {
+              .list-info {
+                .list-page {
+                  flex-wrap: wrap;
+                  .title-content {
+                    margin-bottom: rem(10px);
+                  }
+                  .box-control-list {
+                    margin-left: 0 !important;
+                    width: 100%;
+                    justify-content: space-between;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      // membership
+      .member {
+        .member-main {
+          .paging-steps {
+            padding: rem(15px);
+            .step {
+              > p {
+                display: none;
+              }
+            }
+            .section-dots {
+              width: 9%;
+              justify-content: space-between;
+            }
+          }
+          .box-btn {
+            width: 100%;
+          }
+          .list-page {
+            flex-direction: column-reverse;
+            align-items: flex-start;
+            > .title-content {
+              font-weight: normal;
+            }
+            .list-page-content {
+              align-self: flex-start;
+              margin-left: 0 !important;
+              width: 100%;
+              justify-content: space-between;
+              align-items: center;
+              padding-bottom: rem(10px);
+              border-bottom: 1px solid $gray-color-2;
+              margin-bottom: rem(10px);
+              .title-step {
+                display: block;
+              }
+            }
+          }
+          .content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            .row-content {
+              flex-wrap: wrap;
+              width: 49%;
+              .col-content {
+                width: 100%;
+                p.title {
+                  font-size: rem(12px);
+                }
+                &.pay {
+                  padding-left: 0;
+                  ul {
+                    li {
+                      .pay-now {
+                        .number-pay-now {
+                          font-size: rem(20px);
+                          sup {
+                            font-size: rem(14px);
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                &.select {
+                  width: 100%;
+                  background-color: $gray-color-2;
+                  padding: rem(15px 40px);
+                  &::before {
+                    content: none;
+                  }
+                  .btn {
+                    min-width: 140px;
+                    padding: rem(5px 10px);
+                    margin-left: 0;
+                  }
+                }
+              }
+            }
+            &.select-add-on {
+              flex-wrap: wrap;
+              flex-direction: column-reverse;
+              .select-add-on-main {
+                width: 100%;
+                padding: rem(0 2px);
+                .collapse-saas {
+                  .content {
+                    .personal-group {
+                      width: 100%;
+                    }
+                  }
+                }
+              }
+            }
+            .aside-summary {
+              width: 100%;
+              margin-bottom: rem(15px);
+              .row-span .first-span {
+                width: 15%;
+              }
+            }
+          }
+        }
+      }
+    }
+    .main-content--custom{
+      padding: rem(0px 10px);
+    }
+  }
+
+  // edit-plan
+  .plan-edit{
+    .periods{
+     .plan{
+      width: 100%;
+      padding: rem(15px);
+      .d-flex{
+        justify-content: space-around;
+      }
+     }
+     .package{
+      width: 100%;
+      padding: rem(15px);
+      .d-flex{
+        justify-content: space-around;
+      }
+     }
+     .period-item-1{
+      width: 45%;
+      justify-content: start !important;
+    }
+    }
+    .restrictions-item{
+      width: 100%;
+    }
+    .payments{
+      .selling-price{
+        .is-club.select-custom{
+          margin-top: rem(10px);
+        }
+        .span-3, .span-2{
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .col-lg-5.fist-password {
+    flex: 0 0 50.666667%;
+    max-width: 50.666667%;
+  }
+}
+
+@media (max-width: 992px) {
+  .login {
+    .container {
+      > .row {
+        .loginForm {
+          &.fist-password {
+            .info-change-pass {
+              .list-check-pass {
+                ul {
+                  font-size: rem(12px);
+                  li {
+                    width: 100%;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .page-container {
+    header {
+      .header__right {
+        li.header__account {
+          .multi-box {
+            .dropdown-content {
+              min-width: calc(100% + 60px);
+            }
+          }
+        }
+      }
+    }
+  }
+  .main-content--custom{
+    padding: rem(0px 10px);
+  }
+}
+@media(min-width: 1024px) and (max-width:1200px) {
+  .page-container {
+    .main-content {
+      .appearance {
+        .tabs {
+          .tab-content {
+            .tab-pane {
+              .pickerColor {
+                flex-wrap: wrap;
+                padding-bottom: 0;
+                margin-bottom: rem(15px);
+                .pickerColor__change {
+                  width: 100%;
+                  justify-content: center;
+                  margin-bottom: rem(15px);
+                  .change-color {
+                    width: 20%;
+                    padding-bottom: 20%;
+                    &:first-child {
+                      margin-right: rem(5px);
+                    }
+                  }
+                }
+                .pickerColor__text {
+                  width: 100%;
+                  padding-left: 0;
+                }
+              }
+              .section-combo-color {
+                .exColor {
+                  margin-bottom: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .main-content--custom{
+      padding: rem(0px 10px);
+    }
+  }
+}

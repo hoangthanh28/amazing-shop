@@ -2,11 +2,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AmazingShop.Product.Domain\AmazingShop.Product.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\AmazingShop.Shared.Core\AmazingShop.Shared.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="8.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
   </ItemGroup>
 

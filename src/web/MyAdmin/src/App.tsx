@@ -9,6 +9,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router-dom';
 import userManager from './auth/Oidc';
 import AppContext, { services } from './AppContext';
+import './assets/app.scss'
 const store = configureStore();
 export default class App extends Component<{}, {}> {
   //static displayName = App.name;
