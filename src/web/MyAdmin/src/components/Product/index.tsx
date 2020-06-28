@@ -1,31 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { endLoadProducts } from '../reduxs/actions/Product'
-import { Loading, Loaded } from '../reduxs/actions/System'
-import { StateToPropInterface } from '../interfaces/PagePropsInterface'
-import AppContext from '../AppContext';
-import store from '../reduxs';
+import { endLoadProducts } from '../../reduxs/actions/Product'
+import { Loading, Loaded } from '../../reduxs/actions/System'
+import { StateToPropInterface } from '../../interfaces/PagePropsInterface'
+import AppContext from '../../AppContext';
+import store from '../../reduxs';
 import _ from 'lodash'
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withTranslation, WithTranslation } from 'react-i18next';
+import Product from '../../models/Product';
 interface ProductProps {
   user: StateToPropInterface['oidc']['user'];
-  products: [],
+  products: Product[],
   loading: boolean
 }
 interface ProductStates {
 }
 
-class Product extends Component<ProductProps, ProductStates> {
+class ProductList extends Component<ProductProps & WithTranslation & RouteComponentProps<{}>, ProductStates> {
+  constructor(props: ProductProps & WithTranslation & RouteComponentProps<{}>) {
+    super(props);
+  }
   componentDidMount() {
     this.populateProductData();
   }
 
   renderProductTable(products) {
+    const { history } = this.props;
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +41,7 @@ class Product extends Component<ProductProps, ProductStates> {
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.name}</td>
+              <td><button className="btn btn-primary btn-edit" onClick={() => { history.push(`/products/${product.id}/edit`) }}>Edit</button></td>
             </tr>
           )}
         </tbody>
@@ -51,7 +60,7 @@ class Product extends Component<ProductProps, ProductStates> {
 
     return (
       <div>
-        <h1 id="tabelLabel">Products</h1>
+        <h3 id="tabelLabel">Products</h3>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>
@@ -59,7 +68,6 @@ class Product extends Component<ProductProps, ProductStates> {
   }
 
   async populateProductData() {
-    console.log('populateProductData', this.props.user);
     store.dispatch(Loading());
     const { productService } = this.context;
     const response = await productService.getAllProducts();
@@ -76,5 +84,5 @@ const mapStateToProps = (store: any) => {
     loading: system.isLoading
   };
 };
-Product.contextType = AppContext;
-export default connect(mapStateToProps)(Product);
+ProductList.contextType = AppContext;
+export default withRouter(connect(mapStateToProps)(withTranslation()(ProductList)));

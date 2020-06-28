@@ -1,7 +1,9 @@
-import { PRODUCT_LOADED } from '../../constants/ActionTypes';
+import { PRODUCT_LOADED, PRODUCT_DETAIL_LOADED } from '../../constants/ActionTypes';
+import Product from '../../models/Product';
 
 const INIT_STATE = {
-    products: []
+    products: [],
+    product: Product
 };
 
 export default (state = INIT_STATE, action: any) => {
@@ -10,6 +12,12 @@ export default (state = INIT_STATE, action: any) => {
             return {
                 ...state,
                 products: action.products
+            };
+        }
+        case PRODUCT_DETAIL_LOADED: {
+            return {
+                ...state,
+                product: { ...action.product }
             };
         }
         default:

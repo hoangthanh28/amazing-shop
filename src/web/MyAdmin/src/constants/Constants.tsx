@@ -14,4 +14,6 @@ export const API_ENDPOINT =
         ? `${window._env.API_URL}`
         : domainURL;
 export const PRODUCT_LIST = `${API_ENDPOINT}/prd/products`;
-export const RESOURCE_LIST = `${API_ENDPOINT}/prd/resources`;        
+export const PRODUCT_DETAIL = `${API_ENDPOINT}/prd/products/{0}`;
+export const RESOURCE_LIST = `${API_ENDPOINT}/prd/resources`;
+export const CATEGORY_LIST = `${API_ENDPOINT}/prd/categories`;        

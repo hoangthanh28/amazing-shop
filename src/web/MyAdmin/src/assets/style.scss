@@ -6,7 +6,7 @@
   --white: #ffffff;
   --white-1: #fafafa;
   --black: #000000;
-  --primary-color: #1428a0;
+  --primary-color: #ff7f49;
   --secondary-color: #14b3b8;
   --dark-color: #707070;
   --gray-color-1: #ebebeb;
@@ -279,7 +279,7 @@ li {
 [class^='icon-'],
 [class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  speak: none;
+  //speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -760,7 +760,7 @@ h4,
 }
 .btn-primary {
   background-color: $primary-color;
-  border-color: $primary-color;
+  border-color: $primary-color;  
   &:hover {
     border-color: $primary-color !important;
     color: $primary-color !important;
@@ -775,14 +775,13 @@ h4,
     border-color: $primary-color-darken !important;
     color: $white !important;
   }
-  // &:focus:hover, &:active:hover {
-  //   border-color: $primary-color !important;
-  //   background-color: $white !important;
-  //   color: $primary-color !important;
-  // }
   &:not(:disabled):not(.disabled):active:focus {
     box-shadow: none;
   }
+}
+.btn-edit {
+  border-radius: 10px;
+  padding: rem(1px 5px);
 }
 .btn-secondary {
   background-color: $secondary-color;
@@ -1026,7 +1025,7 @@ h4,
       b {
         position: relative;
         font-family: 'icomoon' !important;
-        speak: none;
+        //speak: none;
         font-style: normal;
         font-weight: normal;
         font-variant: normal;
@@ -2124,7 +2123,7 @@ span.select2-container--open {
     background-color: transparent;
     background-image: none;
     font-family: 'icomoon' !important;
-    speak: none;
+    //speak: none;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;

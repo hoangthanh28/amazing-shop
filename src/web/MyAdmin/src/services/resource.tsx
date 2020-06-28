@@ -7,7 +7,6 @@ export default class ResourceService {
         this.commonService = new CommonService();
     }
     getAllResources() {
-        console.log('Get all resources');
         return this.commonService.fetchData(RESOURCE_LIST).then(res => res.data);
     }
 }

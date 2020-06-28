@@ -34,5 +34,34 @@ export const SideNavItem: SideNavItemInterface[] = [
                 idText: 'NAV.RESOURCE.VIEW_SEARCH'
             }
         ]
+    },
+    {
+        key: 'categories',
+        icon: 'icon icon-resource-ico',
+        idText: 'NAV.CATEGORY',
+        sub: [
+            {
+                url: '/categories',
+                icon: 'icon icon-debt',
+                idText: 'NAV.CATEGORY.VIEW_SEARCH'
+            }
+        ]
+    },
+    {
+        key: 'products',
+        icon: 'icon icon-resource-ico',
+        idText: 'NAV.PRODUCT',
+        sub: [
+            {
+                url: '/products',
+                icon: 'icon icon-debt',
+                idText: 'NAV.PRODUCT.VIEW_SEARCH'
+            },
+            {
+                url: '/products/create',
+                icon: 'icon icon-debt',
+                idText: 'NAV.PRODUCT.CREATE'
+            }
+        ]
     }
 ]
