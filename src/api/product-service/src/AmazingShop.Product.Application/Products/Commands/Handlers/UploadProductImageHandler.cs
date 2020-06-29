@@ -21,7 +21,7 @@ namespace AmazingShop.Product.Application.Product.Command.Handler
         {
             // handle the upload image
             var path = await _storageService.UploadAsync(request.FileName, request.Content, request.ContentType);
-            await _domainDispatcher.DispatchEventAsync(new ImageAddedEvent(request.OriginalFileName, path, request.ContentType));
+            await _domainDispatcher.DispatchEventAsync(new ImageAddedEvent(request.Id, request.Type, request.OriginalFileName, path, request.ContentType));
             return UploadProductImageDto.Create(path);
         }
     }

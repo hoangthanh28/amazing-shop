@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using MediatR;
 using System.IO;
 using AmazingShop.Product.Application.Product.Command;
-using System.Linq;
 
 namespace AmazingShop.Product.Controller
 {
@@ -18,12 +16,6 @@ namespace AmazingShop.Product.Controller
     {
         private readonly IMediator _mediator;
         private readonly ILogger<ProductsController> _logger;
-        private static readonly IEnumerable<ProductModel> _products = new List<ProductModel>()
-        {
-            new ProductModel(){Id = 1, Name =  "Pizza"},
-            new ProductModel(){Id = 2, Name =  "Cheese"},
-            new ProductModel(){Id = 3, Name = "Hotpot"},
-        };
         public ProductsController(IMediator mediator, ILogger<ProductsController> logger)
         {
             _logger = logger;
@@ -31,15 +23,18 @@ namespace AmazingShop.Product.Controller
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAllProductAsync()
         {
-            return Ok(_products);
+            var command = new GetAllProduct();
+            var products = await _mediator.Send(command);
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetProductByIdAsync(int id)
         {
-            var product = _products.Where(x => x.Id == id).FirstOrDefault();
+            var command = new GetProductById(id);
+            var product = await _mediator.Send(command);
             if (product != null)
             {
                 return Ok(product);
@@ -50,14 +45,20 @@ namespace AmazingShop.Product.Controller
             }
         }
 
-        [HttpPost("images")]
-        [AllowAnonymous]
-        public async Task<IActionResult> UploadProductImageAsync(IFormFile file)
+        [HttpPost("{id}/images")]
+        public async Task<IActionResult> UploadProductImageAsync(int id, IFormFile file)
         {
             var fileName = file.FileName;
             var stream = new MemoryStream();
             await file.CopyToAsync(stream);
-            var command = new UploadProductImage(fileName, stream.ToArray(), file.ContentType);
+            var command = new UploadProductImage(id, fileName, stream.ToArray(), file.ContentType);
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProductAsync(int id, UpdateProduct command)
+        {
+            command.Id = id;
             var result = await _mediator.Send(command);
             return Ok(result);
         }

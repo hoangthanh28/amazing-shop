@@ -42,7 +42,7 @@ class Main extends Component<MainProps & WithTranslation, MainState> {
               {appRoutes}
             </div>
           </main>
-          ({openDialog} & <CustomModal
+          {openDialog && <CustomModal
             classHolder={message.classHolder}
             isOpen={openDialog}
             title={message.name}
@@ -53,7 +53,7 @@ class Main extends Component<MainProps & WithTranslation, MainState> {
                 {message.content}
               </React.Fragment>
             }
-          />)
+          />}
         </div>
       </React.Fragment>
     );

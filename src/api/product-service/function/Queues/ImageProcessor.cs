@@ -11,10 +11,10 @@ namespace AmazingShop.Function
     {
         [FunctionName("ImageProcessor")]
         public void Run([QueueTrigger("images", Connection = "StorageAccount:ConnectionString")] ImageAddedEvent queueEvent,
-        [Blob("data/images/{FileName}", FileAccess.Read, Connection = "StorageAccount:ConnectionString")] Stream originalImage,
-        [Blob("data/images/low/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream lowImage,
-        [Blob("data/images/medium/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream mediumImage,
-        [Blob("data/images/high/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream highImage,
+        [Blob("data/images/{Type}/{Id}/{FileName}", FileAccess.Read, Connection = "StorageAccount:ConnectionString")] Stream originalImage,
+        [Blob("data/images/{Type}/{Id}/low/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream lowImage,
+        [Blob("data/images/{Type}/{Id}/medium/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream mediumImage,
+        [Blob("data/images/{Type}/{Id}/high/{FileName}", FileAccess.Write, Connection = "StorageAccount:ConnectionString")] Stream highImage,
         ILogger log)
         {
             log.LogInformation(queueEvent.FileName);

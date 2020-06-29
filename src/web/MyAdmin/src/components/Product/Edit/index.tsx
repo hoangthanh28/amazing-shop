@@ -9,6 +9,7 @@ import _ from 'lodash'
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Product from '../../../models/Product';
+import { read } from 'fs/promises';
 interface ProductProps {
   user: StateToPropInterface['oidc']['user'];
   loading: boolean
@@ -40,26 +41,28 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
   handleSelectFile = () => {
     const { inputFile } = this;
     if (inputFile!.files && inputFile!.files[0]) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.setState({
-          file: inputFile!.files,
-        });
-      };
-      reader.readAsDataURL(inputFile!.files[0]);
+      this.setState({
+        file: inputFile!.files,
+      });
+      _.forEach(inputFile?.files, file => this.readFile(file));
     }
   };
+  readFile(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+  }
 
-  handleOpenCollapseBtn = () => { };
-  handleSubmit(event) {
-    const { product } = this.state;
-    alert(product.name);
+  async handleSubmit(event) {
+    const { history } = this.props;
+    const { product, file } = this.state;
+    const { productService } = this.context;
+    if (file) {
+      await Promise.all(Array.from(file!).map(f => productService.uploadImage(product.id, f)));
+    }
+    await productService.updateProduct(product.id, { ...product });
+    history.push('/products');
     event.preventDefault();
 
-  }
-  handleUploadFile = () => {
-    const { file } = this.state;
-    debugger;
   }
   handleOpenFile = () => {
     if (this.inputFile) {
@@ -70,33 +73,24 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
     const { product, file } = this.state;
     const { t } = this.props;
     return (
-      <form onSubmit={e => { this.handleSubmit(e) }}>
+      <form>
         <div className="form-group">
           <label >Product Name</label>
-          <input type="name" className="form-control" value={product.name} onChange={e => {
+          <input type="name" className="form-control col-3" value={product.name} onChange={e => {
             const { product } = this.state;
             this.setState({ product: { ...product, name: e.target.value } });
           }} />
         </div>
-        <div className="input-upload">
+        <div className="form-group">
           <div
-            className="input-file"
+            className="btn btn-primary"
             onClick={() => this.handleOpenFile()}
           >
-            <input
-              id="input-file"
-              value={file ? file![0]!.name : ''}
-              onChange={() => { }}
-              className="f-input form-control"
-              placeholder={t('COMMON.BROWSE')}
-            />
+            <span>{t('BUTTON.SELECT')}</span>
           </div>
-          <div
-            className="fileUpload btn btn-primary"
-            onClick={this.handleUploadFile}
-          >
-            <span>{t('BUTTON.UPLOAD')}</span>
-          </div>
+        </div>
+        <div className="form-group">
+          {this.renderImagePreview(file)}
         </div>
         <input
           type="file"
@@ -106,11 +100,15 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
           onChange={this.handleSelectFile}
           style={{ display: 'none' }}
         />
-        <input type="submit" value="Submit" className="btn btn-primary" />
+        <input value="Submit" className="btn btn-primary" onClick={e => this.handleSubmit(e)} />
       </form >
     );
   }
-
+  renderImagePreview(files) {
+    return files != null ? <div className="row">
+      {Array.from(files).map((x, index) => { return <img src={URL.createObjectURL(x)} className="uploadFile" key={index} /> })}
+    </div> : <></>
+  }
   render() {
     const { loading, user } = this.props;
     let contents = (loading === undefined || loading || _.isEmpty(user))

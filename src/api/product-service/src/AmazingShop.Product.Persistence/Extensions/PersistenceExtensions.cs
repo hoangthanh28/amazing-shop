@@ -18,6 +18,7 @@ namespace AmazingShop.Product.Persistence.Extension
                 option.UseSqlServer(productConnectionString);
             });
             serviceCollection.AddScoped<IResourceRepository, ResourceRepository>();
+            serviceCollection.AddScoped<IProductRepository, ProductRepository>();
         }
     }
 }
