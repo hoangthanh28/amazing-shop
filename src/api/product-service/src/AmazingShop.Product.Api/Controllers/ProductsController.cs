@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using MediatR;
 using System.IO;
 using AmazingShop.Product.Application.Product.Command;
+using System.Linq;
 
 namespace AmazingShop.Product.Controller
 {
@@ -33,6 +34,20 @@ namespace AmazingShop.Product.Controller
         public IActionResult Get()
         {
             return Ok(_products);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var product = _products.Where(x => x.Id == id).FirstOrDefault();
+            if (product != null)
+            {
+                return Ok(product);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpPost("images")]
