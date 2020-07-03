@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { endLoadProduct } from '../../../reduxs/actions/Product'
 import { Loading, Loaded } from '../../../reduxs/actions/System'
 import { StateToPropInterface } from '../../../interfaces/PagePropsInterface'
 import AppContext from '../../../AppContext';
@@ -9,7 +8,6 @@ import _ from 'lodash'
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Product from '../../../models/Product';
-import { read } from 'fs/promises';
 interface ProductProps {
   user: StateToPropInterface['oidc']['user'];
   loading: boolean
@@ -18,7 +16,6 @@ interface ProductStates {
   id?: string;
   isEditMode: boolean;
   product: Product
-  file: FileList | null;
 }
 
 class EditProduct extends Component<ProductProps & WithTranslation & RouteComponentProps<{}>, ProductStates> {
@@ -30,7 +27,6 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
       id: id,
       isEditMode: id && pathname.indexOf('edit') > -1 ? true : false,
       product: new Product(),
-      file: null
     }
   }
   inputFile: HTMLInputElement | null = null;
@@ -41,24 +37,26 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
   handleSelectFile = () => {
     const { inputFile } = this;
     if (inputFile!.files && inputFile!.files[0]) {
-      this.setState({
-        file: inputFile!.files,
-      });
       _.forEach(inputFile?.files, file => this.readFile(file));
+      const { product } = this.state;
+      const { productService } = this.context;
+      const fileUploadRequests = Array.from(inputFile!.files!).map(f => productService.uploadImage(product.id, f));
+      Promise.all(fileUploadRequests).then(result => {
+        const images = result.map(r => r.payload);
+        this.setState({ product: { ...product, images: images } })
+      });
     }
   };
   readFile(file) {
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL(file);
+
   }
 
   async handleSubmit(event) {
     const { history } = this.props;
-    const { product, file } = this.state;
+    const { product } = this.state;
     const { productService } = this.context;
-    if (file) {
-      await Promise.all(Array.from(file!).map(f => productService.uploadImage(product.id, f)));
-    }
     await productService.updateProduct(product.id, { ...product });
     history.push('/products');
     event.preventDefault();
@@ -70,7 +68,7 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
     }
   };
   renderProductTable() {
-    const { product, file } = this.state;
+    const { product } = this.state;
     const { t } = this.props;
     return (
       <form>
@@ -90,7 +88,7 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
           </div>
         </div>
         <div className="form-group">
-          {this.renderImagePreview(file)}
+          {this.renderImagePreview()}
         </div>
         <input
           type="file"
@@ -104,9 +102,16 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
       </form >
     );
   }
-  renderImagePreview(files) {
-    return files != null ? <div className="row">
-      {Array.from(files).map((x, index) => { return <img src={URL.createObjectURL(x)} className="uploadFile" key={index} /> })}
+  removeProductImage(url) {
+    alert(`Remove product image at ${url}`);
+    const { product, product: { images } } = this.state;
+    this.setState({ product: { ...product, images: images.filter(x => x !== url) } });
+    // file?.item()?.slice()
+  }
+  renderImagePreview() {
+    const { product: { images } } = this.state;
+    return images && images.length ? <div className="row">
+      {images.map((x, index) => { return <span className="product-image-edit"><img src={x} className="uploadFile" key={index} /><button type="button" aria-label="Remove" onClick={() => this.removeProductImage(x)}><span className="icon icon-close-ico" aria-hidden="true"></span></button></span> })}
     </div> : <></>
   }
   render() {

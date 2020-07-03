@@ -13,12 +13,13 @@ services:
   product-service:
     # replace username/repo:tag with your name and image details
     build: 
-      context: src/api/product-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: src/api/product-service/Dockerfile
     environment:
       Idp__Authority: "http://idp"
       StorageAccount__ConnectionString: "DefaultEndpointsProtocol=https;AccountName=cs11003bffd9d07d628;AccountKey=6fjGJmeiflIBU9zmmNSy/ChGSxsZdjvOuTWwv6CgqO+T9CerRalwtDXaFQyTL2F0YTyht9G+70cLqHQQUiXfdQ==;EndpointSuffix=core.windows.net"
       StorageAccount__ImageQueueName: "images" # need to input the storage account name into the queue, only for Azurite
+      ConnectionStrings__Product: "Server=db;Database=Product;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
     ports:
       - "11001:80"
   product-function:
