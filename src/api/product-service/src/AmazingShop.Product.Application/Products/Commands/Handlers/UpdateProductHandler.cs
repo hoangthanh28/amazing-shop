@@ -33,7 +33,7 @@ namespace AmazingShop.Product.Application.Product.Command.Handler
             {
                 if (!existingImages.Contains(url))
                 {
-                    product.Images.Add(new Domain.Entity.ProductImage() { Product = product, Url = url });
+                    entity.Images.Add(new Domain.Entity.ProductImage() { Product = product, Url = url });
                 }
             }
             entity = await _productRepository.UpdateAsync(entity);
