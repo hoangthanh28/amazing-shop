@@ -15,6 +15,6 @@ export const API_ENDPOINT =
         : domainURL;
 export const PRODUCT_LIST = `${API_ENDPOINT}/prd/products`;
 export const PRODUCT_DETAIL = `${API_ENDPOINT}/prd/products/{0}`;
-export const PRODUCT_DETAIL_IMAGE = `${API_ENDPOINT}/prd/products/{0}/images`;
+export const PRODUCT_DETAIL_IMAGE = `${API_ENDPOINT}/prd/products/images`;
 export const RESOURCE_LIST = `${API_ENDPOINT}/prd/resources`;
 export const CATEGORY_LIST = `${API_ENDPOINT}/prd/categories`;        

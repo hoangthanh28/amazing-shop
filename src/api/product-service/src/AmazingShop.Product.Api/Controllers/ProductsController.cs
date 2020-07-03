@@ -45,7 +45,7 @@ namespace AmazingShop.Product.Controller
             }
         }
 
-        [HttpPost("{id}/images")]
+        [HttpPost("images")]
         public async Task<IActionResult> UploadProductImageAsync(int id, IFormFile file)
         {
             var fileName = file.FileName;

@@ -12,10 +12,10 @@ export default class ProductService {
     getProductById(id) {
         return this.commonService.fetchData(PRODUCT_DETAIL.replace('{0}', id));
     }
-    uploadImage(id: number, file: File) {
+    uploadImage(file: File) {
         const data = new FormData();
         data.append('file', file);
-        return this.commonService.postData(PRODUCT_DETAIL_IMAGE.replace('{0}', id.toString()), data);
+        return this.commonService.postData(PRODUCT_DETAIL_IMAGE, data);
     }
     updateProduct(id, data) {
         return this.commonService.putData(PRODUCT_DETAIL.replace('{0}', id), data);

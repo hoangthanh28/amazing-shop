@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AmazingShop.Shared.Entity.Abstraction;
 
 namespace AmazingShop.Product.Domain.Entity
@@ -6,5 +7,6 @@ namespace AmazingShop.Product.Domain.Entity
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public ICollection<ProductImage> Images { get; set; }
     }
 }

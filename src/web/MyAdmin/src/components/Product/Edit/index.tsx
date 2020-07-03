@@ -40,7 +40,7 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
       _.forEach(inputFile?.files, file => this.readFile(file));
       const { product } = this.state;
       const { productService } = this.context;
-      const fileUploadRequests = Array.from(inputFile!.files!).map(f => productService.uploadImage(product.id, f));
+      const fileUploadRequests = Array.from(inputFile!.files!).map(f => productService.uploadImage(f));
       Promise.all(fileUploadRequests).then(result => {
         const images = result.map(r => r.payload);
         this.setState({ product: { ...product, images: images } })
