@@ -7,6 +7,10 @@ namespace AmazingShop.Product.Domain.Entity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<ProductImage> Images { get; set; }
+        public ICollection<ProductImage> Images { get; private set; }
+        public Product()
+        {
+            Images = new List<ProductImage>();
+        }
     }
 }

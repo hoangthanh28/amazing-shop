@@ -9,15 +9,13 @@ namespace AmazingShop.Product.Application.Product.Command
         public string OriginalFileName { get; }
         public byte[] Content { get; }
         public string ContentType { get; }
-        public int Id { get; set; }
         public string Type { get; set; } = "products";
-        public UploadProductImage(int productId, string fileName, byte[] content, string contentType)
+        public UploadProductImage(string fileName, byte[] content, string contentType)
         {
             OriginalFileName = fileName;
-            FileName = $"images/{Type}/{productId}/{fileName}";
+            FileName = $"images/{Type}/{fileName}";
             Content = content;
             ContentType = contentType;
-            Id = productId;
         }
     }
 }

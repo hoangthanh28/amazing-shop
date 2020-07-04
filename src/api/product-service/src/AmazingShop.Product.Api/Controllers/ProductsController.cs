@@ -46,12 +46,12 @@ namespace AmazingShop.Product.Controller
         }
 
         [HttpPost("images")]
-        public async Task<IActionResult> UploadProductImageAsync(int id, IFormFile file)
+        public async Task<IActionResult> UploadProductImageAsync(IFormFile file)
         {
             var fileName = file.FileName;
             var stream = new MemoryStream();
             await file.CopyToAsync(stream);
-            var command = new UploadProductImage(id, fileName, stream.ToArray(), file.ContentType);
+            var command = new UploadProductImage(fileName, stream.ToArray(), file.ContentType);
             var result = await _mediator.Send(command);
             return Ok(result);
         }

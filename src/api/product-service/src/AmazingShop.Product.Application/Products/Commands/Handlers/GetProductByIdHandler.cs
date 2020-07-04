@@ -17,7 +17,7 @@ namespace AmazingShop.Product.Application.Product.Command.Handler
         }
         public async Task<ProductDetailDto> Handle(GetProductById request, CancellationToken cancellationToken)
         {
-            var entity = await _productRepository.Products.Where(x => x.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
+            var entity = await _productRepository.Products.Where(x => x.Id == request.Id).Include(x => x.Images).AsNoTracking().FirstOrDefaultAsync();
             return ProductDetailDto.Create(entity);
         }
     }

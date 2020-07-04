@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace AmazingShop.Product.Application.Product.Dto
 {
     public class ProductDetailDto : BaseDto<int>
     {
+        public IEnumerable<ProductImageDto> Images { get; set; }
         public static Expression<Func<Domain.Entity.Product, ProductDetailDto>> Projection
         {
             get
@@ -12,7 +15,8 @@ namespace AmazingShop.Product.Application.Product.Dto
                 return dto => new ProductDetailDto
                 {
                     Id = dto.Id,
-                    Name = dto.Name
+                    Name = dto.Name,
+                    Images = dto.Images.Select(ProductImageDto.Create)
                 };
             }
         }

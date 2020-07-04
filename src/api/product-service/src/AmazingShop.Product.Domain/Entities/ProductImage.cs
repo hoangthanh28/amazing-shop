@@ -8,6 +8,8 @@ namespace AmazingShop.Product.Domain.Entity
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public string Url { get; set; }
+        public string ContentType { get; set; }
+        public string Name { get; set; }
         public bool Deleted { get; set; }
         public System.DateTime CreatedUtc { get; set; }
         public System.DateTime UpdatedUtc { get; set; }

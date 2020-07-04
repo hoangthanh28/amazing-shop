@@ -1,3 +1,5 @@
+using System;
+using System.Linq.Expressions;
 using AmazingShop.Product.Application.Product.Dto;
 using MediatR;
 
@@ -7,7 +9,7 @@ namespace AmazingShop.Product.Application.Product.Command
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string[] Images { get; set; }
+        public ProductImageDto[] Images { get; set; }
         public Domain.Entity.Product CreateEntity()
         {
             var entity = new Domain.Entity.Product();
