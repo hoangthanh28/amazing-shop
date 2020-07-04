@@ -9,6 +9,7 @@ namespace AmazingShop.Product.Persistence.Configuration
         {
             // configure the model.
             builder.ToTable("ProductImages");
+            builder.HasQueryFilter(x => !x.Deleted);
         }
     }
 }

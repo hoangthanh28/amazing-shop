@@ -4,6 +4,9 @@ Create table Products (
     Name nvarchar(255) not null,
     CategoryId int not null,
     Barcode nvarchar(255) null,
+    CreatedUtc datetime2 not null default getutcdate(),
+    UpdatedUtc datetime2 not null default getutcdate(),
+    Deleted bit not null default 0
 CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

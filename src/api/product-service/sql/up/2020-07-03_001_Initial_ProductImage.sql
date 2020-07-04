@@ -2,7 +2,9 @@
 Create table ProductImages (
     Id int identity(1,1),
     ProductId int not null,
+    Name nvarchar(255) not null,
     Url nvarchar(255) null,
+    ContentType nvarchar(255) not null,
     CreatedUtc datetime2 not null default getutcdate(),
     UpdatedUtc datetime2 not null default getutcdate(),
     Deleted bit not null default 0

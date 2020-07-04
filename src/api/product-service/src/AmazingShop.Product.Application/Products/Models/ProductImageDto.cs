@@ -8,6 +8,7 @@ namespace AmazingShop.Product.Application.Product.Dto
         public string Name { get; set; }
         public string ContentType { get; set; }
         public string Url { get; set; }
+        public bool IsEdit { get; set; } = true;
         public static Expression<Func<Domain.Entity.ProductImage, ProductImageDto>> Projection
         {
             get
@@ -17,6 +18,7 @@ namespace AmazingShop.Product.Application.Product.Dto
                     Url = dto.Url,
                     ContentType = dto.ContentType,
                     Name = dto.Name,
+                    IsEdit = true
                 };
             }
         }

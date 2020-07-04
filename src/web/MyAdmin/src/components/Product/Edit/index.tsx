@@ -38,11 +38,14 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
     const { inputFile } = this;
     if (inputFile!.files && inputFile!.files[0]) {
       _.forEach(inputFile?.files, file => this.readFile(file));
-      const { product } = this.state;
+      const { product, product: { images } } = this.state;
       const { productService } = this.context;
       const fileUploadRequests = Array.from(inputFile!.files!).map(f => productService.uploadImage(f));
       Promise.all(fileUploadRequests).then(result => {
-        const images = result.map(r => r.payload);
+        const newImages = result.map(r => ({ name: r.name, url: r.payload, contentType: r.contentType, isEdit: false }));
+        newImages.forEach(img => {
+          images.push(img);
+        });
         this.setState({ product: { ...product, images: images } })
       });
     }
@@ -58,6 +61,7 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
     const { product } = this.state;
     const { productService } = this.context;
     await productService.updateProduct(product.id, { ...product });
+
     history.push('/products');
     event.preventDefault();
 
@@ -98,20 +102,19 @@ class EditProduct extends Component<ProductProps & WithTranslation & RouteCompon
           onChange={this.handleSelectFile}
           style={{ display: 'none' }}
         />
-        <input value="Submit" className="btn btn-primary" onClick={e => this.handleSubmit(e)} />
+        <input className="btn btn-primary" onClick={(e) => this.handleSubmit(e)} defaultValue='Submit' />
       </form >
     );
   }
-  removeProductImage(url) {
-    alert(`Remove product image at ${url}`);
+  removeProductImage(image) {
     const { product, product: { images } } = this.state;
-    this.setState({ product: { ...product, images: images.filter(x => x !== url) } });
+    this.setState({ product: { ...product, images: images.filter(x => x !== image) } });
     // file?.item()?.slice()
   }
   renderImagePreview() {
     const { product: { images } } = this.state;
     return images && images.length ? <div className="row">
-      {images.map((x, index) => { return <span className="product-image-edit"><img src={x} className="uploadFile" key={index} /><button type="button" aria-label="Remove" onClick={() => this.removeProductImage(x)}><span className="icon icon-close-ico" aria-hidden="true"></span></button></span> })}
+      {images.map((image, index) => { return <span className="product-image-edit" key={index} ><img src={image.url} className="uploadFile" key={index} /><button type="button" aria-label="Remove" onClick={() => this.removeProductImage(image)}><span className="icon icon-close-ico" aria-hidden="true"></span></button></span> })}
     </div> : <></>
   }
   render() {

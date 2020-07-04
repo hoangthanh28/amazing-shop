@@ -41,7 +41,7 @@ namespace AmazingShop.Product.Application.Product.Command.Handler
                 }
             }
             entity = await _productRepository.UpdateAsync(entity);
-            var tasks = request.Images.Select(x => _domainDispatcher.DispatchEventAsync(new ImageAddedEvent(request.Id, "images", x.Name, x.ContentType)));
+            var tasks = request.Images.Where(x => !x.IsEdit).Select(x => _domainDispatcher.DispatchEventAsync(new ImageAddedEvent(request.Id, "products", x.Name, x.ContentType, x.Url)));
             await Task.WhenAll(tasks);
             return UpdateProductDto.Create(entity);
         }
