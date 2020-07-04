@@ -9,7 +9,7 @@
 package-lock.json
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-
+training.yml
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
