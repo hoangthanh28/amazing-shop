@@ -1,9 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using AmazingShop.Product.Application.Event;
 using AmazingShop.Product.Application.Product.Dto;
 using AmazingShop.Product.Application.Repository.Abstraction;
-using AmazingShop.Product.Application.Service.Dispatcher.Abstraction;
 using MediatR;
 
 namespace AmazingShop.Product.Application.Product.Command.Handler
@@ -19,7 +17,7 @@ namespace AmazingShop.Product.Application.Product.Command.Handler
         {
             // handle the upload image
             var path = await _storageService.UploadAsync(request.FileName, request.Content, request.ContentType);
-            return UploadProductImageDto.Create(path);
+            return UploadProductImageDto.Create(request.FileName, path, request.ContentType);
         }
     }
 }
