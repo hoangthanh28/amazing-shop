@@ -15,6 +15,7 @@ steps:
   - script: mono $(Build.BinariesDirectory)/tools/GitVersion.CommandLine/tools/GitVersion.exe /output buildserver /nofetch
     displayName: 'fetch version'  
   - task: DockerCompose@0
+    displayName: Build software
     inputs:
       containerregistrytype: 'Azure Container Registry'
       azureSubscription: 'Dev/Test'
@@ -24,6 +25,7 @@ steps:
       action: 'Run a Docker Compose command'
       dockerComposeCommand: 'build'
   - task: DockerCompose@0
+    displayName: Publish software into registry
     inputs:
       containerregistrytype: 'Azure Container Registry'
       azureSubscription: 'Dev/Test'
