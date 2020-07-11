@@ -90,6 +90,10 @@ steps:
       codeCoverageTool: Cobertura
       summaryFileLocation: '$(Build.ArtifactStagingDirectory)/product/tests.cobertura.xml'
 
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      customCommand: 'install newman -g'
   # - task: Bash@3
   #   displayName: Run newman
   #   inputs:
