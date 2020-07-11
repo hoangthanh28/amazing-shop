@@ -44,7 +44,7 @@ INSERT INTO [dbo].[Clients]
      VALUES
      (
            1, --[Enabled]
-           newId(),--[ClientId]
+           '58EC0B4B-FCBF-49AF-B1A3-BD8C47D78DB3',--[ClientId]
            'oidc', --[ProtocolType]
            0,--[RequireClientSecret]
            'Service Account', --[ClientName]
