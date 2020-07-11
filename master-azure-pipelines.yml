@@ -31,13 +31,10 @@ steps:
       azureSubscription: 'Dev/Test'
       azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
       dockerComposeFile: 'docker-compose.yml'
-      additionalDockerComposeFiles: 'integration-test.yml'
+      additionalDockerComposeFiles: 'development.yml'
       action: Run services
       additionalImageTags: '$(GitVersion.NuGetVersion)'
       buildImages: false
-    env:
-      PostmanCollection: $(PostmanCollection)
-      PostmanEnvironment: $(PostmanEnvironment)
 
   - task: Bash@3
     displayName: Run product integration test
@@ -47,6 +44,9 @@ steps:
         # Set executable for build.sh
         chmod +x build.sh
         ./build.sh --target=Test --projects=src/api/product-service/**/*Test.csproj --output=$(Build.ArtifactStagingDirectory)/product
+    env:
+      Postman__Collection: $(PostmanCollection)
+      Postman__Environment: $(PostmanEnvironment)
   
   - task: PublishCodeCoverageResults@1
     displayName: 'Publish the product code coverage'
