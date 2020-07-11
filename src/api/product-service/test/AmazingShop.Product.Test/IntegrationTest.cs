@@ -60,7 +60,7 @@ namespace AmazingShop.Product.Test
                 var postmanEnvironment = JsonConvert.DeserializeObject<JObject>(environmentResponse)["environment"];
                 var environment = postmanEnvironment.ToObject<PostmanEnvironment>();
                 var collection = JsonConvert.DeserializeObject<JObject>(response)["collection"]["item"] as JArray;
-                await AccquiredAccessTokenAndRandomValueAsync(httpClient, environment);
+                await AccquiredAccessTokenAndRandomValueAsync(client, environment);
                 await TestThisSubCollectionAsync(httpClient, environment, collection);
             }
         }
@@ -74,7 +74,11 @@ namespace AmazingShop.Product.Test
 
                     var request = requestObject.ToObject<PostmanRequest>();
                     string path = null;
-                    if (!request.Url.Raw.StartsWith("{{host}}"))
+                    if (request.Url.Raw.StartsWith("{{identity-service}}"))
+                    {
+                        continue;
+                    }
+                    if (request.Url.Raw.EndsWith("skipTest=true"))
                     {
                         continue;
                     }
@@ -105,7 +109,9 @@ namespace AmazingShop.Product.Test
                                 break;
                         }
                         var testResponse = await result.Content.ReadAsStringAsync();
+
                         _output.WriteLine($"{(int)result.StatusCode}- {testResponse}");
+                        testResponse = testResponse.Replace("[],", "null,");
                         var responseObject = JsonConvert.DeserializeObject<JObject>(testResponse) as JObject;
                         var dictionary = new Dictionary<string, string>();
                         if (responseObject["data"] is JArray responseArray)
@@ -198,7 +204,7 @@ namespace AmazingShop.Product.Test
             #region Preparing access_token
             var tokenEndpoint = environment.Values.First((x => x.Key == "identity-service")).Value;
             var clientId = environment.Values.First(x => x.Key == "sa_client_id").Value;
-            var clientSecrect = environment.Values.First(x => x.Key == "sa_client_secrect").Value;
+            var clientSecrect = environment.Values.First(x => x.Key == "sa_client_password").Value;
             _output.WriteLine($"Accquired the access token from endpoint: {tokenEndpoint} with client credentials: {clientId}/{clientSecrect}");
             var content = new FormUrlEncodedContent(
                      new List<KeyValuePair<string, string>>()
@@ -207,7 +213,7 @@ namespace AmazingShop.Product.Test
                             KeyValuePair.Create("client_id",clientId),
                             KeyValuePair.Create("client_secret",clientSecrect),
                      });
-            var tokenRequest = await client.PostAsync("connect/token", content);
+            var tokenRequest = await client.PostAsync($"{tokenEndpoint.TrimEnd('/')}/connect/token", content);
             var tokenResponse = await tokenRequest.Content.ReadAsStringAsync();
             _output.WriteLine(tokenResponse);
             var accessToken = JsonConvert.DeserializeObject<JObject>(tokenResponse)["access_token"].ToString();
