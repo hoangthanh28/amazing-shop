@@ -41,8 +41,8 @@ steps:
       targetType: 'inline'
       script: |
         # Set executable for build.sh
-        chmod +x src/api/product-service/build.sh
-        ./src/api/product-service/build.sh --target=Test --projects=src/api/product-service/**/*Test.csproj --output=$(Build.ArtifactStagingDirectory)/product
+        chmod +x build.sh
+        ./build.sh --target=Test --projects=src/api/product-service/**/*Test.csproj --output=$(Build.ArtifactStagingDirectory)/product
   
   - task: PublishCodeCoverageResults@1
     displayName: 'Publish the product code coverage'
