@@ -96,7 +96,7 @@ steps:
       script: |
         # Set executable for build.sh
         sudo npm install newman -g
-        newman run $(PostmanCollection) --environment $(PostmanEnvironment) --color on -k -r cli,htmlextra,junit --reporter-htmlextra-export $BUILD_DEFINITIONID-$BUILD_BUILDID.postman.test.html --reporter-junit-export $BUILD_DEFINITIONID-$BUILD_BUILDID.postman.test.xml
+        newman run $(PostmanCollection) --environment $(PostmanEnvironment) --color on -k -r cli,htmlextra,junit --reporter-htmlextra-export $(GitVersion.NuGetVersion).postman.test.html --reporter-junit-export $(GitVersion.NuGetVersion).postman.test.xml
   # - task: NewmanPostman@4
   #   displayName: New man run
   #   inputs:
