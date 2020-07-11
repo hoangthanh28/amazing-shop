@@ -34,6 +34,9 @@ steps:
       additionalDockerComposeFiles: 'integration-test.yml'
       action: Run services
       additionalImageTags: '$(GitVersion.NuGetVersion)'
+    env:
+      PostmanCollection: $(PostmanCollection)
+      PostmanEnvironment: $(PostmanEnvironment)
 
   - task: Bash@3
     displayName: Run product integration test
