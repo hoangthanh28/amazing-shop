@@ -19,7 +19,7 @@ steps:
     inputs:
       containerregistrytype: 'Azure Container Registry'
       azureSubscription: 'Dev/Test'
-      azureContainerRegistry: $(azureContainerRegistry)
+      azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
       dockerComposeFile: 'docker-compose.yml'
       additionalDockerComposeFiles: 'development.yml'
       action: Build services
@@ -29,7 +29,7 @@ steps:
     inputs:
       containerregistrytype: 'Azure Container Registry'
       azureSubscription: 'Dev/Test'
-      azureContainerRegistry: $(azureContainerRegistry)
+      azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
       dockerComposeFile: 'docker-compose.yml'
       additionalDockerComposeFiles: 'development.yml'
       action: Push services
@@ -56,7 +56,7 @@ steps:
     inputs:
       containerregistrytype: 'Azure Container Registry'
       azureSubscription: 'Dev/Test'
-      azureContainerRegistry: $(azureContainerRegistry)
+      azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
       dockerComposeFile: 'docker-compose.yml'
       additionalDockerComposeFiles: 'development.yml'
       action: Push services
