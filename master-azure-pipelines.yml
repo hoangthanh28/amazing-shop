@@ -111,9 +111,15 @@ steps:
       environmentUrl: '$(PostmanEnvironment)'
       ignoreRedirect: false
       sslInsecure: true
-      reporters: 'cli, htmlextra'
+      reporters: 'cli, htmlextra, junit'
       reporterHtmlExtraTemplate: $BUILD_DEFINITIONID-$BUILD_BUILDID.postman.test.html
+      reporterJUnitExport: $BUILD_DEFINITIONID-$BUILD_BUILDID.postman.test.xml
       htmlExtraReportTitle: 'Postman Test'
+      
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '*postman.test.xml'
   - task: AzureFileCopy@4
     displayName: Copy test file
     inputs:
