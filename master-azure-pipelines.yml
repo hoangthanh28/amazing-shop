@@ -35,6 +35,9 @@ steps:
       action: Run services
       additionalImageTags: '$(GitVersion.NuGetVersion)'
       buildImages: false
+    env:
+      PostmanCollection: $(PostmanCollection)
+      PostmanEnvironment: $(PostmanEnvironment)
 
   - task: Bash@3
     displayName: Run product integration test
