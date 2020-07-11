@@ -20,8 +20,8 @@ services:
       StorageAccount__ConnectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
       StorageAccount__ImageQueueName: "devstoreaccount1/images" # need to input the storage account name into the queue, only for Azurite
       ConnectionStrings__Product: "Server=db;Database=Product;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
-      Postman__Collection: $(PostmanCollection)
-      Postman__Environment: $(PostmanEnvironment)
+      Postman__Collection: ${PostmanCollection}
+      Postman__Environment: ${PostmanEnvironment}
     ports:
       - "11001:80"
   product-function:
