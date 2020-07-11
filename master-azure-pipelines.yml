@@ -5,7 +5,12 @@ trigger:
   paths:
     include:
     - src/*
-steps:    
+steps:
+  - task: NuGetCommand@2
+    inputs:
+      command: custom
+      arguments: install GitVersion.CommandLine -Version 4.0.0 -OutputDirectory $(Build.BinariesDirectory)/tools -ExcludeVersion
+    displayName: 'install gitversion'
   - task: DockerCompose@0
     inputs:
       containerregistrytype: 'Azure Container Registry'
@@ -14,4 +19,12 @@ steps:
       dockerComposeFile: 'docker-compose.yml'
       additionalDockerComposeFiles: 'development.yml'
       action: 'Run a Docker Compose command'
-      dockerComposeCommand: 'build'    
+      dockerComposeCommand: 'build'
+  - task: DockerCompose@0
+    inputs:
+      containerregistrytype: 'Azure Container Registry'
+      azureSubscription: 'Dev/Test'
+      azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
+      dockerComposeFile: 'docker-compose.yml'
+      action: 'Push services'
+      additionalImageTags: '$(GitVersion.NuGetVersion)'
