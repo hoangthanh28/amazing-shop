@@ -11,6 +11,9 @@ steps:
       command: custom
       arguments: install GitVersion.CommandLine -Version 4.0.0 -OutputDirectory $(Build.BinariesDirectory)/tools -ExcludeVersion
     displayName: 'install gitversion'
+
+  - script: mono $(Build.BinariesDirectory)/tools/GitVersion.CommandLine/tools/GitVersion.exe /output buildserver /nofetch
+    displayName: 'fetch version'  
   - task: DockerCompose@0
     inputs:
       containerregistrytype: 'Azure Container Registry'
