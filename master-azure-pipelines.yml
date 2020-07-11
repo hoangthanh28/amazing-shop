@@ -19,18 +19,46 @@ steps:
     inputs:
       containerregistrytype: 'Azure Container Registry'
       azureSubscription: 'Dev/Test'
-      azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
+      azureContainerRegistry: $(azureContainerRegistry)
       dockerComposeFile: 'docker-compose.yml'
       additionalDockerComposeFiles: 'development.yml'
       action: Build services
       additionalImageTags: '$(GitVersion.NuGetVersion)'
   - task: DockerCompose@0
-    displayName: Publish software into registry
+    displayName: Run the services
     inputs:
       containerregistrytype: 'Azure Container Registry'
       azureSubscription: 'Dev/Test'
-      azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
+      azureContainerRegistry: $(azureContainerRegistry)
       dockerComposeFile: 'docker-compose.yml'
       additionalDockerComposeFiles: 'development.yml'
       action: Push services
       additionalImageTags: '$(GitVersion.NuGetVersion)'
+
+  - task: Bash@3
+    displayName: Run product integration test
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Set executable for build.sh
+        chmod +x src/api/product-service/build.sh
+        ./src/api/product-service/build.sh --target=Test --projects=src/api/product-service/**/*Test.csproj --output=$(Build.ArtifactStagingDirectory)/product
+  
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish the product code coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(Build.ArtifactStagingDirectory)/product/tests.cobertura.xml'
+    
+
+  - task: DockerCompose@0
+    displayName: Publish software into registry
+    inputs:
+      containerregistrytype: 'Azure Container Registry'
+      azureSubscription: 'Dev/Test'
+      azureContainerRegistry: $(azureContainerRegistry)
+      dockerComposeFile: 'docker-compose.yml'
+      additionalDockerComposeFiles: 'development.yml'
+      action: Push services
+      additionalImageTags: '$(GitVersion.NuGetVersion)'
+ 
