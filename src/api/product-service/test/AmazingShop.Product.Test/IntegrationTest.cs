@@ -27,7 +27,7 @@ namespace AmazingShop.Product.Test
             _output = output;
             _factory = factory.WithWebHostBuilder(builder =>
             {
-                builder.UseEnvironment("IntegrationTest");
+                //builder.UseEnvironment("IntegrationTest");
                 builder.ConfigureAppConfiguration((hostingContext, configBuilder) =>
                 {
                     var env = hostingContext.HostingEnvironment;

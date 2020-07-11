@@ -34,6 +34,7 @@ steps:
       additionalDockerComposeFiles: 'integration-test.yml'
       action: Run services
       additionalImageTags: '$(GitVersion.NuGetVersion)'
+      buildImages: false
 
   - task: Bash@3
     displayName: Run product integration test

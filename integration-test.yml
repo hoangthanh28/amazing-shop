@@ -22,6 +22,7 @@ services:
       ConnectionStrings__Product: "Server=db;Database=Product;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
       Postman__Collection: ${PostmanCollection}
       Postman__Environment: ${PostmanEnvironment}
+      ASPNETCORE_ENVIRONMENT: "Testing"
     ports:
       - "11001:80"
   product-function:
