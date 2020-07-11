@@ -6,6 +6,13 @@ trigger:
     include:
     - src/*
 steps:
+  - task: Bash@3
+    displayName: Run newman
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Set executable for build.sh
+        sudo npm install newman
   - task: NuGetCommand@2
     inputs:
       command: custom
@@ -100,7 +107,7 @@ steps:
   #     targetType: 'inline'
   #     script: |
   #       # Set executable for build.sh
-  #       npm install newman
+  #       sudo npm install newman
   #       newman run $(PostmanCollection) --environment $(PostmanEnvironment) --color on -k -r cli,htmlextra --reporter-htmlextra-export $BUILD_DEFINITIONID-$BUILD_BUILDID.postman.test.html
   - task: NewmanPostman@4
     displayName: New man run
