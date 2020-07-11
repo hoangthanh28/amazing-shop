@@ -90,6 +90,29 @@ steps:
       codeCoverageTool: Cobertura
       summaryFileLocation: '$(Build.ArtifactStagingDirectory)/product/tests.cobertura.xml'
 
+  - task: Npm@1
+    displayName: Install newman
+    inputs:
+      command: 'custom'
+      customCommand: 'install -g newman'
+
+  - task: Bash@3
+    displayName: Run newman
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Set executable for build.sh
+        newman run $(PostmanCollection) --environment $(PostmanEnvironment) --color on -k -r cli,htmlextra --reporter-htmlextra-export $BUILD_DEFINITIONID-$BUILD_BUILDID.postman.test.html
+  - task: AzureFileCopy@4
+    inputs:
+      SourcePath: '*.postman.test.html'
+      azureSubscription: 'Dev/Test'
+      Destination: 'AzureBlob'
+      storage: 'cs11003bffd9d07d628'
+      ContainerName: 'reports'
+      BlobPrefix: 'postmantest'
+
+
 ############## END TESTING #################   
 
   - task: DockerCompose@0
