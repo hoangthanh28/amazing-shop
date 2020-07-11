@@ -10,11 +10,10 @@
 var target = Argument<string>("target", "Default");
 var configuration = Argument<string>("configuration", "Release");
 var output = Argument<string>("output", "output");
-//var sqlFolder = Argument<string>("sql", "sql");
+var sqlFolder = Argument<string>("sql", "sql");
 var projectFiles = Argument<string>("projects", "./**/*.csproj").Split(',');
-var connectionString = EnvironmentVariable("ConnectionString__Idp")?? "Server=127.0.0.1;Database=Idp;User=sa;Password=Pass1234$;TrustServerCertificate=True";
+var connectionString = EnvironmentVariable("ConnectionString__Default")?? "Server=127.0.0.1;Database=Default;User=sa;Password=Pass1234$;TrustServerCertificate=True";
 var masterConnectionString = EnvironmentVariable("ConnectionString__Master")?? "Server=127.0.0.1;Database=master;User=sa;Password=Pass1234$;TrustServerCertificate=True";
-var productConnectionString = EnvironmentVariable("ConnectionString__Product")?? "Server=127.0.0.1;Database=Product;User=sa;Password=Pass1234$;TrustServerCertificate=True";
 
 ///////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
@@ -149,13 +148,9 @@ Task("Publish")
 ///////////////////////////////////////////////////////////////////////////////
 // Migrate DB
 ///////////////////////////////////////////////////////////////////////////////
-Task("Migrate")
-    .Description("Migrate the current schema to target database")
-    .IsDependentOn("MigrateIdp")
-    .IsDependentOn("MigrateProduct");
 
-Task("MigrateIdp")
-    .Description("Migrate the Idp database")
+Task("MigrateDB")
+    .Description("Migrate database")
     .Does(() =>
 {
     // Create the migration database
@@ -167,34 +162,17 @@ Task("MigrateIdp")
         Drop=false,
         Debug=false,
         WithTransaction=true,
-        SqlFilesDirectory = "src/idp/sql"
+        SqlFilesDirectory = sqlFolder
     };
     RoundhouseMigrate(settings);
 });
-Task("MigrateProduct")
-    .Description("Migrate the product database")
-    .Does(() =>
-{
-    // Create the migration database
-    var settings = new RoundhouseSettings {
-        ConnectionString = productConnectionString,
-        ConnectionStringAdmin = masterConnectionString,
-        DoNotCreateDatabase=false,
-        Silent=true,
-        Drop=false,
-        Debug=false,
-        WithTransaction=true,
-        SqlFilesDirectory = "src/api/product-service/sql"
-    };
-    RoundhouseMigrate(settings);
-});
+
 ///////////////////////////////////////////////////////////////////////////////
 // Unit Tests
 ///////////////////////////////////////////////////////////////////////////////
 
 Task("Test")
     .Description("Run all unit tests within the project.")
-    .IsDependentOn("Migrate")
     .DoesForEach(projects, (p) => 
 {
     if(p.GetFilename().ToString().ToLower().Contains("test")){

@@ -14,6 +14,7 @@ steps:
 
   - script: mono $(Build.BinariesDirectory)/tools/GitVersion.CommandLine/tools/GitVersion.exe /output buildserver /nofetch
     displayName: 'fetch version'  
+
   - task: DockerCompose@0
     displayName: Build software
     inputs:
@@ -24,6 +25,7 @@ steps:
       additionalDockerComposeFiles: 'development.yml'
       action: Build services
       additionalImageTags: '$(GitVersion.NuGetVersion)'
+      
   - task: DockerCompose@0
     displayName: Run the services
     inputs:
@@ -35,6 +37,40 @@ steps:
       action: Run services
       additionalImageTags: '$(GitVersion.NuGetVersion)'
       buildImages: false
+
+  - task: Bash@3
+    displayName: Migrate Idp database
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Set executable for build.sh
+        chmod +x build.sh
+        ./build.sh --target=MigrateDB --sql=src/idp/sql
+    env:
+      ConnectionString__Default: 'Server=127.0.0.1;Database=Idp;User=sa;Password=Pass1234$;TrustServerCertificate=True'
+
+  - task: Bash@3
+    displayName: Migrate Product database
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Set executable for build.sh
+        chmod +x build.sh
+        ./build.sh --target=MigrateDB --sql=src/api/product-service/sql
+    env:
+      ConnectionString__Default: 'Server=127.0.0.1;Database=Product;User=sa;Password=Pass1234$;TrustServerCertificate=True'
+
+############## TESTING #################
+  - task: Bash@3
+    displayName: Seed product data test
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Set executable for build.sh
+        chmod +x build.sh
+        ./build.sh --target=MigrateDb --sql=src/api/product-service/test/sql
+    env:
+      ConnectionString__Default: 'Server=127.0.0.1;Database=Product;User=sa;Password=Pass1234$;TrustServerCertificate=True'
 
   - task: Bash@3
     displayName: Run product integration test
@@ -53,7 +89,8 @@ steps:
     inputs:
       codeCoverageTool: Cobertura
       summaryFileLocation: '$(Build.ArtifactStagingDirectory)/product/tests.cobertura.xml'
-    
+
+############## END TESTING #################   
 
   - task: DockerCompose@0
     displayName: Publish software into registry
