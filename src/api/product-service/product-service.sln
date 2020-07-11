@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazingShop.Shared.Core", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazingShop.Shared.Entity", "..\..\shared\AmazingShop.Shared.Entity\AmazingShop.Shared.Entity.csproj", "{6261B307-89CC-47C2-A535-2136A101AE29}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1E67F9DB-249D-485D-8691-7511F470B795}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazingShop.Product.Test", "test\AmazingShop.Product.Test\AmazingShop.Product.Test.csproj", "{CA71FCA3-1C68-449A-987C-D919993576D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,5 +132,20 @@ Global
 		{6261B307-89CC-47C2-A535-2136A101AE29}.Release|x64.Build.0 = Release|Any CPU
 		{6261B307-89CC-47C2-A535-2136A101AE29}.Release|x86.ActiveCfg = Release|Any CPU
 		{6261B307-89CC-47C2-A535-2136A101AE29}.Release|x86.Build.0 = Release|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Debug|x64.Build.0 = Debug|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Debug|x86.Build.0 = Debug|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Release|x64.ActiveCfg = Release|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Release|x64.Build.0 = Release|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Release|x86.ActiveCfg = Release|Any CPU
+		{CA71FCA3-1C68-449A-987C-D919993576D9}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA71FCA3-1C68-449A-987C-D919993576D9} = {1E67F9DB-249D-485D-8691-7511F470B795}
 	EndGlobalSection
 EndGlobal
