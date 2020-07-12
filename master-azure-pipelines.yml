@@ -111,7 +111,12 @@ steps:
   #     reporterHtmlExtraTemplate: $BUILD_DEFINITIONID-$BUILD_BUILDID.postman.test.html
   #     reporterJUnitExport: $BUILD_DEFINITIONID-$BUILD_BUILDID.postman.test.xml
   #     htmlExtraReportTitle: 'Postman Test'
-      
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'Dev/Test'
+      scriptType: 'batch'
+      scriptLocation: 'inlineScript'
+      inlineScript: az storage blob upload -c reportes -n postman/tests/$(GitVersion.NuGetVersion).postman.test.html -f $(GitVersion.NuGetVersion).postman.test.html --account-name $(StorageAccountName) --account-key $(StorageAccountKey)
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
