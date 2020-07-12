@@ -21,9 +21,17 @@ namespace AmazingShop.Product.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllResources()
+        public async Task<IActionResult> GetAllResourcesAsync()
         {
             var command = new GetAllResources();
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetResourceByIdAsync(int id)
+        {
+            var command = new GetResourceById(id);
             var result = await _mediator.Send(command);
             return Ok(result);
         }
