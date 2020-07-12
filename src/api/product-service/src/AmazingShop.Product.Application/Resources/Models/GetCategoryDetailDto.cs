@@ -19,6 +19,10 @@ namespace AmazingShop.Product.Application.Resource.Dto
 
         public static GetCategoryDetailDto Create(Domain.Entity.Category entity)
         {
+            if (entity == null)
+            {
+                return null;
+            }
             return Projection.Compile().Invoke(entity);
         }
     }

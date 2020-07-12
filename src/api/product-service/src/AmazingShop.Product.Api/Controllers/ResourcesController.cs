@@ -33,7 +33,14 @@ namespace AmazingShop.Product.Controller
         {
             var command = new GetResourceById(id);
             var result = await _mediator.Send(command);
-            return Ok(result);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
     }
 }

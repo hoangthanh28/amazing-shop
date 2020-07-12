@@ -23,6 +23,10 @@ namespace AmazingShop.Product.Application.Product.Dto
 
         public static ProductDetailDto Create(Domain.Entity.Product entity)
         {
+            if (entity == null)
+            {
+                return null;
+            }
             return Projection.Compile().Invoke(entity);
         }
     }

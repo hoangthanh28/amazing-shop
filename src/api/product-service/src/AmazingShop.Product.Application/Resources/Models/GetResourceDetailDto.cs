@@ -21,9 +21,13 @@ namespace AmazingShop.Product.Application.Resource.Dto
             }
         }
 
-        public static GetResourceDetailDto Create(Domain.Entity.Resource member)
+        public static GetResourceDetailDto Create(Domain.Entity.Resource entity)
         {
-            return Projection.Compile().Invoke(member);
+            if (entity == null)
+            {
+                return null;
+            }
+            return Projection.Compile().Invoke(entity);
         }
     }
 }
