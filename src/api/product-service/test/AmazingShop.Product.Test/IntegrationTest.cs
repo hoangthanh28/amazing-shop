@@ -211,7 +211,7 @@ namespace AmazingShop.Product.Test
             {
                 var content = request.Body.Raw.ReplaceWithEnvironment(environment);
                 _output.WriteLine(content);
-                return new StringContent(content, System.Text.Encoding.UTF8, request.Header.FirstOrDefault(x => x.Key == "Content-Type")?.Value);
+                return new StringContent(content, System.Text.Encoding.UTF8, request.Header.FirstOrDefault(x => string.Equals(x.Key, "Content-Type", StringComparison.InvariantCultureIgnoreCase))?.Value ?? "application/json");
             }
             else if (request.Body.Mode == "urlencoded")
             {
