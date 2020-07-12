@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AmazingShop.Product.Test.Extension;
 using AmazingShop.Product.Test.Model;
-using Microsoft.AspNetCore.Hosting;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -113,16 +113,7 @@ namespace AmazingShop.Product.Test
                         _output.WriteLine($"{(int)result.StatusCode}- {testResponse}");
                         testResponse = testResponse.Replace("[],", "null,");
                         var responseObject = JsonConvert.DeserializeObject<JObject>(testResponse) as JObject;
-                        var dictionary = new Dictionary<string, string>();
-                        if (responseObject["data"] is JArray responseArray)
-                        {
-                            dictionary = responseArray.First.ToObject<Dictionary<string, string>>();
-                        }
-                        else
-                        {
-                            dictionary = responseObject.ToObject<Dictionary<string, string>>();
-                        }
-
+                        var dictionary = ParseDictionary(responseObject);
                         foreach (var item in dictionary)
                         {
                             _output.WriteLine($"Add to environment: {item.Key} - {item.Value}");
@@ -141,6 +132,54 @@ namespace AmazingShop.Product.Test
                     await TestThisSubCollectionAsync(httpClient, environment, array);
                 }
             }
+        }
+        private Dictionary<string, string> ParseDictionary(JObject responseObject, string root = "")
+        {
+            var dictionary = new Dictionary<string, string>();
+            foreach (var item in responseObject)
+            {
+                if (item.Value is JObject jObj)
+                {
+                    var result = ParseDictionary(jObj, $"{root}_{item.Key}".Trim('_'));
+                    foreach (var dic in result)
+                    {
+                        dictionary[dic.Key] = dic.Value;
+                    }
+                }
+                else if (item.Value is JArray arr)
+                {
+                    var key = item.Key.Replace("data", "");
+                    if (!string.IsNullOrEmpty(key))
+                    {
+                        key = key.Singularize();
+                    }
+                    var result = ParseDictionary(arr, $"{root}_{key}".Trim('_'));
+                    foreach (var dic in result)
+                    {
+                        dictionary[dic.Key] = dic.Value;
+                    }
+                }
+                else
+                {
+                    dictionary[$"{root}_{item.Key}".Trim('_')] = item.Value.ToString();
+                }
+            }
+            return dictionary;
+
+        }
+        private Dictionary<string, string> ParseDictionary(JArray responseObject, string root = "")
+        {
+            var dictionary = new Dictionary<string, string>();
+            var item = responseObject.First;
+            if (item is JObject jObj)
+            {
+                var result = ParseDictionary(jObj, root);
+                foreach (var dic in result)
+                {
+                    dictionary[dic.Key] = dic.Value;
+                }
+            }
+            return dictionary;
         }
         private void AddPreRequestScript(JToken subCollection, PostmanEnvironment environment)
         {
