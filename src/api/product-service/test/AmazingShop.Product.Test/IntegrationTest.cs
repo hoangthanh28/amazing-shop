@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -218,6 +219,13 @@ namespace AmazingShop.Product.Test
                 var content = request.Body.Urlencoded.Select(x => KeyValuePair.Create(x.Key, x.Value.ReplaceWithEnvironment(environment)));
                 _output.WriteLine(JsonConvert.SerializeObject(content));
                 return new FormUrlEncodedContent(content);
+            }
+            else if (request.Body.Mode == "formdata")
+            {
+                var method = new MultipartFormDataContent();
+                var streamContent = new StreamContent(File.Open("AppData/images/bg.jpeg", FileMode.Open));
+                method.Add(streamContent, "file", "bg.jpeg");
+                return method;
             }
             return new StringContent("");
         }

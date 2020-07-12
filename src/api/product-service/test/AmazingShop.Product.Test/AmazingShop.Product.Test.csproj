@@ -17,4 +17,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AmazingShop.Product.Api\AmazingShop.Product.Api.csproj" />
   </ItemGroup>
+  <ItemGroup> 
+    <Content Include="AppData\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+    </Content> 
+  </ItemGroup>
 </Project>
