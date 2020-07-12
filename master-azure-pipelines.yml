@@ -98,6 +98,7 @@ steps:
         sudo npm install newman -g
         sudo npm install newman-reporter-htmlextra -g
         newman run $(PostmanCollection) --environment $(PostmanEnvironment) --color on -k -r cli,htmlextra,junit --reporter-htmlextra-export $(GitVersion.NuGetVersion).postman.test.html --reporter-junit-export $(GitVersion.NuGetVersion).postman.test.xml
+    continueOnError: true
   # - task: NewmanPostman@4
   #   displayName: New man run
   #   inputs:

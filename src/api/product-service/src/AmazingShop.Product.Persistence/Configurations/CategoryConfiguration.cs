@@ -10,7 +10,7 @@ namespace AmazingShop.Product.Persistence.Configuration
         {
             // configure the model.
             builder.ToTable("Categories");
-            builder.HasOne(x => x.Resource).WithMany().HasForeignKey(x => x.ResourceId);
+            builder.HasOne(x => x.Resource).WithMany(x => x.Categories).HasForeignKey(x => x.ResourceId);
         }
     }
 }
