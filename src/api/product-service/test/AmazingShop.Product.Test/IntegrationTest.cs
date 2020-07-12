@@ -137,36 +137,38 @@ namespace AmazingShop.Product.Test
         private Dictionary<string, string> ParseDictionary(JObject responseObject, string root = "")
         {
             var dictionary = new Dictionary<string, string>();
-            foreach (var item in responseObject)
+            if (responseObject != null)
             {
-                if (item.Value is JObject jObj)
+                foreach (var item in responseObject)
                 {
-                    var result = ParseDictionary(jObj, $"{root}_{item.Key}".Trim('_'));
-                    foreach (var dic in result)
+                    if (item.Value is JObject jObj)
                     {
-                        dictionary[dic.Key] = dic.Value;
+                        var result = ParseDictionary(jObj, $"{root}_{item.Key}".Trim('_'));
+                        foreach (var dic in result)
+                        {
+                            dictionary[dic.Key] = dic.Value;
+                        }
                     }
-                }
-                else if (item.Value is JArray arr)
-                {
-                    var key = item.Key.Replace("data", "");
-                    if (!string.IsNullOrEmpty(key))
+                    else if (item.Value is JArray arr)
                     {
-                        key = key.Singularize();
+                        var key = item.Key.Replace("data", "");
+                        if (!string.IsNullOrEmpty(key))
+                        {
+                            key = key.Singularize();
+                        }
+                        var result = ParseDictionary(arr, $"{root}_{key}".Trim('_'));
+                        foreach (var dic in result)
+                        {
+                            dictionary[dic.Key] = dic.Value;
+                        }
                     }
-                    var result = ParseDictionary(arr, $"{root}_{key}".Trim('_'));
-                    foreach (var dic in result)
+                    else
                     {
-                        dictionary[dic.Key] = dic.Value;
+                        dictionary[$"{root}_{item.Key}".Trim('_')] = item.Value.ToString();
                     }
-                }
-                else
-                {
-                    dictionary[$"{root}_{item.Key}".Trim('_')] = item.Value.ToString();
                 }
             }
             return dictionary;
-
         }
         private Dictionary<string, string> ParseDictionary(JArray responseObject, string root = "")
         {
