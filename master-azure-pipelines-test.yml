@@ -1,10 +1,10 @@
-trigger:
-  branches:
-    include:
-    - master
-  paths:
-    include:
-    - src/*
+# trigger:
+#   branches:
+#     include:
+#     - master
+#   paths:
+#     include:
+#     - src/*
 steps:
   - task: NuGetCommand@2
     inputs:
