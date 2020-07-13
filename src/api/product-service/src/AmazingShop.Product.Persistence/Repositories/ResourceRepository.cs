@@ -13,5 +13,7 @@ namespace AmazingShop.Product.Persistence.Repository
             _dbContext = dbContext;
         }
         public IQueryable<Resource> Resources => _dbContext.Resources;
+
+        public IQueryable<Category> Categories => _dbContext.Categories;
     }
 }

@@ -11,6 +11,8 @@ namespace AmazingShop.Product.Domain.Entity
         public System.DateTime CreatedUtc { get; set; }
         public System.DateTime UpdatedUtc { get; set; }
         public ICollection<ProductImage> Images { get; private set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
         public Product()
         {
             Images = new List<ProductImage>();
