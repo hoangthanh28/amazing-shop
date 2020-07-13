@@ -16,17 +16,6 @@ steps:
     displayName: 'fetch version'  
 
   - task: DockerCompose@0
-    displayName: Build software
-    inputs:
-      containerregistrytype: 'Azure Container Registry'
-      azureSubscription: 'Dev/Test'
-      azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
-      dockerComposeFile: 'docker-compose.yml'
-      additionalDockerComposeFiles: 'development.yml'
-      action: Build services
-      additionalImageTags: '$(GitVersion.NuGetVersion)'
-      
-  - task: DockerCompose@0
     displayName: Run the services
     inputs:
       containerregistrytype: 'Azure Container Registry'
@@ -99,6 +88,7 @@ steps:
         sudo npm install newman-reporter-htmlextra -g
         newman run $(PostmanCollection) --environment $(PostmanEnvironment) -n $(PostmanRunRound) --color on -k -r cli,htmlextra,junit --reporter-htmlextra-export $(GitVersion.NuGetVersion).postman.test.html --reporter-junit-export $(GitVersion.NuGetVersion).postman.test.xml
     continueOnError: true
+ 
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
@@ -113,16 +103,4 @@ steps:
           az storage container create -n reports --account-name $(StorageAccountName) --account-key $(StorageAccountKey)
           az storage blob upload -c reports -n postman/tests/$(GitVersion.NuGetVersion).postman.test.html -f $(GitVersion.NuGetVersion).postman.test.html --account-name $(StorageAccountName) --account-key $(StorageAccountKey)
 
-############## END TESTING #################   
-
-  - task: DockerCompose@0
-    displayName: Publish software into registry
-    inputs:
-      containerregistrytype: 'Azure Container Registry'
-      azureSubscription: 'Dev/Test'
-      azureContainerRegistry: '{"loginServer":"moapdevseaacr.azurecr.io", "id" : "/subscriptions/f4085210-e524-4919-9534-63c2194835ed/resourceGroups/moap-dev-sea-rg/providers/Microsoft.ContainerRegistry/registries/moapdevseaacr"}'
-      dockerComposeFile: 'docker-compose.yml'
-      additionalDockerComposeFiles: 'development.yml'
-      action: Push services
-      additionalImageTags: '$(GitVersion.NuGetVersion)'
- 
+############## END TESTING #################
