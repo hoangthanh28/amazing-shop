@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using AmazingShop.Product.Application.Product.Dto;
 
-namespace AmazingShop.Product.Application.Resource.Dto
+namespace AmazingShop.Product.Application.Category.Dto
 {
     public class GetCategoryDetailDto : BaseDto<int>
     {
-        public IEnumerable<ProductDetailDto> Products { get; set; }
         public static Expression<Func<Domain.Entity.Category, GetCategoryDetailDto>> Projection
         {
             get
@@ -16,8 +12,7 @@ namespace AmazingShop.Product.Application.Resource.Dto
                 return model => new GetCategoryDetailDto
                 {
                     Id = model.Id,
-                    Name = model.Name,
-                    Products = model.Products.Select(ProductDetailDto.Create)
+                    Name = model.Name
                 };
             }
         }

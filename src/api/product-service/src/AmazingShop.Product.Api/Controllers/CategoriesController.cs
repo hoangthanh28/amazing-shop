@@ -1,0 +1,46 @@
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using MediatR;
+using AmazingShop.Product.Application.Category.Command;
+
+namespace AmazingShop.Product.Controller
+{
+    [ApiController]
+    [Route("prd/[controller]")]
+    [Authorize(AuthenticationSchemes = "oidc")]
+    public class CategoriesController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+        private readonly ILogger<ResourcesController> _logger;
+        public CategoriesController(IMediator mediator, ILogger<ResourcesController> logger)
+        {
+            _logger = logger;
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllCategoriesAsync()
+        {
+            var command = new GetAllCategories();
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetResourceByIdAsync(int id)
+        {
+            var command = new GetCategoryById(id);
+            var result = await _mediator.Send(command);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+    }
+}
