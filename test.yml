@@ -2,6 +2,7 @@ version: "3"
 services:
   idp:
     # replace username/repo:tag with your name and image details
+    image: moapdevseaacr.azurecr.io/idp-server
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ConnectionStrings__Idp: "Server=db;Database=Idp;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
@@ -9,6 +10,7 @@ services:
       - "8081:80"
   product-service:
     # replace username/repo:tag with your name and image details
+    image: moapdevseaacr.azurecr.io/api/product
     environment:
       Idp__Authority: "http://idp"
       StorageAccount__ConnectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
@@ -18,6 +20,7 @@ services:
       - "11001:80"
   product-function:
     # replace username/repo:tag with your name and image details
+    image: moapdevseaacr.azurecr.io/function/product
     environment:
       StorageAccount__ConnectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
       ConnectionStrings__Product: "Server=db;Database=Product;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
