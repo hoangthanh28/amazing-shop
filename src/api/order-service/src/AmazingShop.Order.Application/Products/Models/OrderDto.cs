@@ -10,6 +10,7 @@ namespace AmazingShop.Order.Application.Order.Dto
     {
         public string CustomerName { get; set; }
         public string CustomerEmail { get; set; }
+        public decimal TotalAmount { get; set; }
         public IEnumerable<OrderDetailDto> Details { get; set; }
         public static Expression<Func<Domain.Entity.Order, OrderDto>> Projection
         {
@@ -20,7 +21,8 @@ namespace AmazingShop.Order.Application.Order.Dto
                     Id = dto.Id,
                     CustomerEmail = dto.CustomerEmail,
                     CustomerName = dto.CustomerName,
-                    Details = dto.Details.Select(OrderDetailDto.Create)
+                    Details = dto.Details.Select(OrderDetailDto.Create),
+                    TotalAmount = dto.TotalAmount
                 };
             }
         }

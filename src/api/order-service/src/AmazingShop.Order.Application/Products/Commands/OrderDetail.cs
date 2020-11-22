@@ -9,7 +9,7 @@ namespace AmazingShop.Order.Application.Order.Command
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int Qty { get; set; }
-        public int UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
         public OrderDetail()
         {
         }
