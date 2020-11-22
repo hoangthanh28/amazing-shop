@@ -1,0 +1,24 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/prd/{1}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/fnc/prd/{1}",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "product-function",
+                    "Port": 80
+                }
+            ],
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Put",
+                "Delete",
+                "Options",
+                "Head",
+                "Patch"
+            ]
+        }
+    ]
+}

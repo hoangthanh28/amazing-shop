@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using AmazingShop.Shared.Core.Service.MultiTenancy.Middleware;
 namespace AmazingShop.Product
 {
     public class Startup
@@ -49,14 +49,11 @@ namespace AmazingShop.Product
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<ApiTenancyMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

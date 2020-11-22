@@ -1,0 +1,9 @@
+{
+    "GlobalConfiguration": {
+        "RateLimitOptions": {
+            "DisableRateLimitHeaders": false,
+            "QuotaExceededMessage": "Too many requests.",
+            "HttpStatusCode": 429
+        }
+    }
+}
