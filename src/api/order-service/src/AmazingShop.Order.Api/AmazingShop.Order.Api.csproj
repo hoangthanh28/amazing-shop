@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\AmazingShop.Order.Application\AmazingShop.Order.Application.csproj" />
+    <ProjectReference Include="..\AmazingShop.Order.Persistence\AmazingShop.Order.Persistence.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\AmazingShop.Shared.Core\AmazingShop.Shared.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+
+</Project>

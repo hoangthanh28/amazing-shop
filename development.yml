@@ -10,6 +10,18 @@ services:
       ConnectionStrings__Idp: "Server=db;Database=Idp;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
     ports:
       - "8081:80"
+  api-gateway:
+    # replace username/repo:tag with your name and image details
+    build: 
+      context: .
+      dockerfile: src/gw/src/Dockerfile
+    environment:
+      Idp__Authority: "http://idp"
+      StorageAccount__ConnectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
+      StorageAccount__ImageQueueName: "devstoreaccount1/images" # need to input the storage account name into the queue, only for Azurite
+      ConnectionStrings__Product: "Server=db;Database=Product;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
+    ports:
+      - "11000:80"
   product-service:
     # replace username/repo:tag with your name and image details
     build: 
@@ -19,9 +31,51 @@ services:
       Idp__Authority: "http://idp"
       StorageAccount__ConnectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
       StorageAccount__ImageQueueName: "devstoreaccount1/images" # need to input the storage account name into the queue, only for Azurite
-      ConnectionStrings__Product: "Server=db;Database=Product;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
+      Sharding__ShardId: "sa"
+      Sharding__ShardPassword: "Pass1234$$"
+      Sharding__MapManagerId: "sa"
+      Sharding__MapManagerPassword: "Pass1234$$"
+      Sharding__MapManagerDatabase: "ShardmapManager"
+      Sharding__MapManagerServer: "db"
+      ASPNETCORE_ENVIRONMENT: "Development"
     ports:
       - "11001:80"
+
+  order-service:
+    # replace username/repo:tag with your name and image details
+    build: 
+      context: .
+      dockerfile: src/api/order-service/Dockerfile
+    environment:
+      Idp__Authority: "http://idp"
+      Sharding__ShardId: "sa"
+      Sharding__ShardPassword: "Pass1234$$"
+      Sharding__MapManagerId: "sa"
+      Sharding__MapManagerPassword: "Pass1234$$"
+      Sharding__MapManagerDatabase: "ShardmapManager"
+      Sharding__MapManagerServer: "db"
+      ASPNETCORE_ENVIRONMENT: "Development"
+    ports:
+      - "11002:80"
+
+  #FUNCTION
+  gateway-function:
+    # replace username/repo:tag with your name and image details
+    build: 
+      context: .
+      dockerfile: src/gw/function/Dockerfile
+    environment:
+      Idp__Authority: "http://idp"
+      Idp__Issuer: "idp"
+      Sharding__ShardId: "sa"
+      Sharding__ShardPassword: "Pass1234$$"
+      Sharding__MapManagerId: "sa"
+      Sharding__MapManagerPassword: "Pass1234$$"
+      Sharding__MapManagerDatabase: "ShardmapManager"
+      Sharding__MapManagerServer: "db"
+      AzureWebJobsStorage: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
+    ports:
+      - "12001:80"
   product-function:
     # replace username/repo:tag with your name and image details
     build: 
@@ -32,4 +86,4 @@ services:
       ConnectionStrings__Product: "Server=db;Database=Product;User=sa;Password=Pass1234$$;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
       AzureWebJobsStorage: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://storage:10000/devstoreaccount1;QueueEndpoint=http://storage:10001/devstoreaccount1;"
     ports:
-      - "12001:80"
+      - "12002:80"

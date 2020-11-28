@@ -30,6 +30,28 @@
             }
         },
         {
+            "name": "Product-Service",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "product.build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/api/product-service/src/AmazingShop.Product.Api/bin/Debug/netcoreapp3.1/AmazingShop.Product.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/api/product-service/src/AmazingShop.Product.Api",
+            "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",

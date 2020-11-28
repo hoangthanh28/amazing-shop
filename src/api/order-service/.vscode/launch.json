@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Product Function",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:azureFunctions.pickProcess}"
+        },
+        {
+            "name": "Product Service",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "api.build",
+            "program": "${workspaceFolder}/src/AmazingShop.Product.Api/bin/Debug/netcoreapp3.1/AmazingShop.Product.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/AmazingShop.Product.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+    ]
+}
